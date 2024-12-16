@@ -5,17 +5,20 @@ import { Navbar } from "@/components/layouts";
 
 const poppins = Poppins({
   variable: "--font-poppins",
-  weight: ["100", "200", "300", "400", "500", "600"]
+  weight: ["100", "200", "300", "400", "500", "600"],
+  subsets: [`latin`, `latin-ext`]
 });
 
 const staatliches = Staatliches({
   variable: "--font-staatliches",
-  weight: "400"
+  weight: "400",
+  subsets: [`latin`, `latin-ext`]
 });
 
 const gajraj = Gajraj_One({
   variable: "--font-gajraj-one",
   weight: "400",
+  subsets: [`latin`, `latin-ext`]
 });
 
 export const metadata: Metadata = {

@@ -5,9 +5,6 @@ import { motion, MotionConfig } from "motion/react";
 import Image from "next/image";
 
 export default function Home() {
-
-
-
   return (
     <main>
       <MotionConfig transition={{ duration: 0.8 }}>
