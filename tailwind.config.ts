@@ -24,6 +24,10 @@ export default {
         "gajraj": "var(--font-gajraj-one)",
         "poppins": "var(--font-poppins)",
         "staatliches": "var(--font-staatliches)"
+      },
+      backgroundImage: {
+        "techno-evolved": "var(--techno-evolved)",
+        "all-for-one": "var(--all-for-one)"
       }
     },
   },

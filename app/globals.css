@@ -11,6 +11,10 @@
 
   --foreground: var(--color-2);
   --background: var(--color-1);
+
+  /** Product Images */
+  --techno-evolved: url("/products/techno-evolved.png");
+  --all-for-one: url("/products/all-for-one.png");
 }
 
 @media (prefers-color-scheme: light) {
