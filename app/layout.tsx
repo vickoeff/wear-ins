@@ -1,7 +1,10 @@
 import type { Metadata } from "next";
 import { Poppins, Staatliches, Gajraj_One } from "next/font/google";
 import "./globals.css";
-import { Navbar } from "@/components/layouts";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
+
+import { Footer, Navbar } from "@/components/layouts";
 
 const poppins = Poppins({
   variable: "--font-poppins",
@@ -38,6 +41,7 @@ export default function RootLayout({
       >
         <Navbar />
         {children}
+        <Footer />
       </body>
     </html>
   );

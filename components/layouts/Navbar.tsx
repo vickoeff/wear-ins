@@ -8,7 +8,7 @@ export const Navbar = () => {
     <nav className="relative bg-white">
       <div className="container flex justify-between items-center">
         <Link href="/">
-          <Image src="/logo.svg" width={64} height={64} alt="Logo" />
+          <Image src="/logo-light.png" width={64} height={64} alt="Logo" />
         </Link>
 
         <div className="flex items-center gap-10">

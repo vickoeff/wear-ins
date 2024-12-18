@@ -12,9 +12,12 @@
   --foreground: var(--color-2);
   --background: var(--color-1);
 
+  --online-shop: url("/bg-online-shop.png");
+
   /** Product Images */
-  --techno-evolved: url("/products/techno-evolved.png");
-  --all-for-one: url("/products/all-for-one.png");
+  --techno-evolved_light: url("/products/techno-evolved_light.png");
+  --all-for-one_dark: url("/products/all-for-one_dark.png");
+  --all-for-one_light: url("/products/all-for-one_light.png");
 }
 
 @media (prefers-color-scheme: light) {
@@ -24,6 +27,15 @@
   }
 }
 
+
+::-webkit-scrollbar {
+  background-color: var(--color-2);
+  width: 8px;
+}
+::-webkit-scrollbar-thumb {
+  background-color: var(--color-1);
+  border-radius: 40px;
+}
 body {
   color: var(--foreground);
   background: var(--background);
