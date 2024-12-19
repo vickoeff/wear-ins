@@ -26,7 +26,7 @@ export default {
         "staatliches": "var(--font-staatliches)"
       },
       backgroundImage: {
-        "techno-evolved-light": "var(--techno-evolved_light)",
+        "techno-evolved-light": "var(--techno-evolved_front_light)",
         "all-for-one-dark": "var(--all-for-one_dark)",
         "all-for-one-light": "var(--all-for-one_light)",
         "online-shop": "var(--online-shop)"

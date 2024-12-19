@@ -15,8 +15,8 @@ export const CatalogCard = ({ imageFront, imageBack, name, price, size, stock }:
   return (
     <div className="flex flex-col items-center mx-4">
       <div className="relative w-full top-6 h-[280px]">
-        <Image src={imageBack} width={600} height={3025} alt="model-1" priority className="absolute -top-8 -left-[50%] max-w-[200%]" />
-        <Image src={imageFront} width={600} height={3025} alt="model-1" priority className="absolute -left-[20%] max-w-[200%]" />
+        <Image src={imageBack} width={400} height={3025} alt="model-1" priority className="absolute -top-8 -left-[20%] max-w-[200%]" />
+        <Image src={imageFront} width={400} height={3025} alt="model-1" priority className="absolute left-[10%] max-w-[200%]" />
       </div>
       <div className="bg-color-3 px-4 pb-2 w-full font-staatliches tracking-wide ">
         <div className="bg-white w-full h-24 mb-3"></div>

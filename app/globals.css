@@ -15,9 +15,9 @@
   --online-shop: url("/bg-online-shop.png");
 
   /** Product Images */
-  --techno-evolved_light: url("/products/techno-evolved_light.png");
-  --all-for-one_dark: url("/products/all-for-one_dark.png");
-  --all-for-one_light: url("/products/all-for-one_light.png");
+  --techno-evolved_front_light: url("/products/techno-evolved_front_light.png");
+  --all-for-one_dark: url("/products/all-for-one_back_dark.png");
+  --all-for-one_light: url("/products/all-for-one_front_light.png");
 }
 
 @media (prefers-color-scheme: light) {
@@ -32,10 +32,12 @@
   background-color: var(--color-2);
   width: 8px;
 }
+
 ::-webkit-scrollbar-thumb {
   background-color: var(--color-1);
   border-radius: 40px;
 }
+
 body {
   color: var(--foreground);
   background: var(--background);

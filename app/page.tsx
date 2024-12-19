@@ -64,7 +64,7 @@ export default function Home() {
                 <motion.p className="text-xs max-w-[419px]" initial={{ translateY: "100%", opacity: 0 }} whileInView={{ translateY: "0", opacity: 1 }}>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry&apos;s standard dummy text ever since the 1500s.</motion.p>
               </div>
               <div className="w-1/3 flex justify-center items-center overflow-hidden object-cover">
-                <Image src="/products/techno-evolved_light.png" width={3025} height={3025} alt="model-1" priority className="max-w-[200%]" />
+                <Image src="/products/techno-evolved_back_light.png" width={3025} height={3025} alt="model-1" priority className="max-w-[150%]" />
               </div>
               <div className="w-1/3"></div>
             </div>
@@ -77,8 +77,8 @@ export default function Home() {
 
         <section className="relative">
           <div className="flex">
-            <motion.div className="bg-color-4 bg-techno-evolved-light bg-opacity-10 bg-[position:60%_20%] bg-[length:auto_200%] bg-no-repeat flex-1 h-[80vh]" initial={{ backgroundPositionY: "-50%" }} whileInView={{ backgroundPositionY: "0%" }}></motion.div>
-            <motion.div className="bg-color-5 bg-all-for-one-dark bg-opacity-10 bg-[position:40%_60%] bg-[length:auto_200%] bg-no-repeat flex-1 h-[80vh]" initial={{ backgroundPositionY: "150%" }} whileInView={{ backgroundPositionY: "64%" }}></motion.div>
+            <motion.div className="bg-color-4 bg-techno-evolved-light bg-opacity-10 bg-[position:75%_40%] bg-[length:auto_220%] bg-no-repeat flex-1 h-[80vh]" initial={{ backgroundPositionY: "-50%" }} whileInView={{ backgroundPositionY: "0%" }}></motion.div>
+            <motion.div className="bg-color-5 bg-all-for-one-dark bg-opacity-10 bg-[position:40%_60%] bg-[length:auto_200%] bg-no-repeat flex-1 h-[80vh]" initial={{ backgroundPositionY: "150%" }} whileInView={{ backgroundPositionY: "60%" }}></motion.div>
           </div>
           <div className="absolute w-fit h-fit top-0 bottom-0 left-0 right-0 m-auto text-center">
             <motion.h1 className="font-gajraj text-8xl" initial={{ translateY: "-50%", opacity: 0 }} whileInView={{ translateY: "0%", opacity: 1 }} >Wear.Ins</motion.h1>
