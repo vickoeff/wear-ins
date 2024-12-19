@@ -1,7 +1,7 @@
 import { useAnimate } from "motion/react"
 import { useEffect } from "react";
 
-export const Divider = () => {
+export const Divider = ({ bgColor }: { bgColor?: string }) => {
   const [scope, animate] = useAnimate();
 
   useEffect(() => {
@@ -11,8 +11,8 @@ export const Divider = () => {
   });
 
   return (
-    <div ref={scope} className="relative w-full height-[2px] border-b-[2px] border-b-color-2 my-2">
-      <div id="dot" className="absolute top-0 -bottom-[1px] my-auto w-[6px] h-[6px] bg-color-2 rotate-45"></div>
+    <div ref={scope} className={`relative w-full h-[2px]  my-2 ${bgColor ? bgColor : "bg-color-2"}`}>
+      <div id="dot" className={`absolute top-0 bottom-0 my-auto w-[6px] h-[6px] rotate-45 ${bgColor ? bgColor : "bg-color-2"}`}></div>
     </div>
   )
 }

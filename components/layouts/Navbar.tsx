@@ -2,16 +2,17 @@ import { NAV_ITEMS } from "@/constant/navbar";
 import Image from "next/image";
 import Link from "next/link";
 import { HiOutlineHeart, HiOutlineShoppingBag } from "react-icons/hi2";
+import { FiMenu } from "react-icons/fi";
 
 export const Navbar = () => {
   return (
-    <nav className="relative bg-white">
-      <div className="container flex justify-between items-center">
+    <nav className="sticky top-0 bg-white z-50 shadow-sm">
+      <div className="container flex justify-between items-center px-4 md:px-0 py-2 md:py-0">
         <Link href="/">
           <Image src="/logo-light.png" width={64} height={64} alt="Logo" />
         </Link>
 
-        <div className="flex items-center gap-10">
+        <div className="hidden md:flex items-center gap-10">
           {/** Navbar Items */}
           <ul className="flex gap-8">
             {
@@ -33,6 +34,9 @@ export const Navbar = () => {
             </Link>
           </div>
         </div>
+        <button className="md:hidden text-4xl">
+          <FiMenu />
+        </button>
       </div>
     </nav>
   )
