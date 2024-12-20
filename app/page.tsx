@@ -10,13 +10,8 @@ import Slider from "react-slick";
 
 export default function Home() {
   const settings = {
-    autoplay: true,
-    autoplaySpeed: 2000,
-    dots: false,
-    infinite: true,
+    dots: true,
     speed: 800,
-    centerMode: true,
-    centerPadding: "150px",
     slidesToShow: 4,
     slidesToScroll: 1,
     initialSlide: 0,
@@ -25,17 +20,14 @@ export default function Home() {
       {
         breakpoint: 1720,
         settings: {
-          centerPadding: "8px",
           slidesToShow: 3,
           slidesToScroll: 3,
-          infinite: true,
           dots: true
         }
       },
       {
         breakpoint: 1000,
         settings: {
-          centerPadding: "8px",
           slidesToShow: 2,
           slidesToScroll: 2,
           initialSlide: 2
@@ -44,7 +36,6 @@ export default function Home() {
       {
         breakpoint: 480,
         settings: {
-          centerPadding: "8px",
           slidesToShow: 1,
           slidesToScroll: 1
         }

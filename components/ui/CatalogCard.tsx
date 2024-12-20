@@ -1,10 +1,19 @@
 'use client'
 
 import Image from "next/image";
+import { useState } from "react";
 
 interface ICatalogCardProps {
-  imageFront: string;
-  imageBack: string;
+  images: {
+    light: {
+      front: string;
+      back: string;
+    }
+    dark: {
+      front: string;
+      back: string;
+    }
+  }
   name: string;
   material: string;
   size: string[] | string;
@@ -12,7 +21,9 @@ interface ICatalogCardProps {
   stock: string | number;
 }
 
-export const CatalogCard = ({ imageFront, imageBack, name, material, price, size, stock }: ICatalogCardProps) => {
+export const CatalogCard = ({ images, name, material, price, size, stock }: ICatalogCardProps) => {
+  const [selectedColor, setSelectedColor] = useState<"light" | "dark">("light");
+
   return (
     <div className="flex flex-col items-center mx-4">
       <div className="bg-color-3 px-4 py-4 w-full font-staatliches tracking-wide shadow-lg rounded-2xl border-color-4 border-2">
@@ -22,8 +33,8 @@ export const CatalogCard = ({ imageFront, imageBack, name, material, price, size
         </div>
         <div className="bg-color-1 w-full h-[360px] mb-3 rounded-2xl">
           <div className="relative top-10 w-[350px] mx-auto h-[360px]">
-            <Image src={imageBack} width={350} height={3025} alt="model-1" priority className="absolute -top-8 -left-[15%] max-w-[200%]" />
-            <Image src={imageFront} width={350} height={3025} alt="model-1" priority className="absolute left-[12%] max-w-[200%]" />
+            <Image src={images[selectedColor].back} width={350} height={3025} alt="model-1" priority className="absolute -top-8 -left-[15%] max-w-[200%]" />
+            <Image src={images[selectedColor].front} width={350} height={3025} alt="model-1" priority className="absolute left-[12%] max-w-[200%]" />
           </div>
         </div>
         <h3 className="bg-color-1 p-2 text-center font-bold uppercase text-xl mb-2 rounded-full">{name}</h3>
@@ -41,10 +52,12 @@ export const CatalogCard = ({ imageFront, imageBack, name, material, price, size
               <span className="inline-block min-w-16">STOCK:</span>
               <span>{stock}</span>
             </div>
-            <div className="flex p-1 px-4 my-1 rounded-full gap-2 justify-between">
+            <div className="flex p-1 px-4 my-1 rounded-full gap-2 justify-around">
               <span className="inline-block flex-1">COLOR:</span>
-              <div className="bg-color-1 p-3 w-1/3 rounded-full"></div>
-              <div className="bg-color-2 p-3 w-1/3 rounded-full"></div>
+              <fieldset className="flex gap-2">
+                <div id={name + "color"} className={`bg-color-1 p-3 w-[60px] rounded-full border-2 cursor-pointer ${selectedColor === "light" && "border-blue-600"}`} onClick={() => setSelectedColor("light")} />
+                <div id={name + "color"} className={`bg-color-2 p-3 w-[60px] rounded-full border-2 cursor-pointer ${selectedColor === "dark" && "border-blue-600"}`} onClick={() => setSelectedColor("dark")} />
+              </fieldset>
             </div>
           </div>
           <div className="bg-color-1 p-1 px-4 my-1 rounded-full">
