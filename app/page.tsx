@@ -3,12 +3,56 @@
 import { Divider } from "@/components/atoms";
 import { CatalogCard } from "@/components/ui";
 import { PRODUCTS } from "@/constant/products";
-import { motion, MotionConfig } from "motion/react";
+import { motion, MotionConfig, useAnimate } from "motion/react";
 import Image from "next/image";
 import Link from "next/link";
+import { useEffect, useState } from "react";
 import Slider from "react-slick";
 
 export default function Home() {
+  const [prodIdx, setProdIdx] = useState<number>(0);
+  // Auto Change New Products Animation
+  const [scope, animate] = useAnimate();
+
+  // Set Auto change New Products
+  useEffect(() => {
+    const handleVisible = () => {
+      animate("#new-image-front", { opacity: 1 }, { delay: 0.5 });
+      animate("#new-image-back", { opacity: 1 }, { delay: 0.5 });
+      animate("#new-product-name", { opacity: 1 }, { delay: 0.5 });
+      animate("#new-product-desc", { opacity: 1 }, { delay: 0.5 });
+    }
+
+    const handleChange = () => {
+      if (prodIdx >= PRODUCTS.length - 1) {
+        setProdIdx(0);
+      } else {
+        setProdIdx(prodIdx + 1);
+      }
+    }
+
+    const changeIdx = () => setTimeout(handleChange, 200);
+    const triggerVisibleAnimate = () => setTimeout(handleVisible, 500);
+
+    const autoInterval = setInterval(() => {
+      animate("#new-image-front", { opacity: 0 }, { duration: 0.3 });
+      animate("#new-image-back", { opacity: 0 }, { duration: 0.3 });
+      animate("#new-product-name", { opacity: 0 }, { duration: 0.3 });
+      animate("#new-product-desc", { opacity: 0 }, { duration: 0.3 });
+
+      changeIdx();
+
+      triggerVisibleAnimate();
+
+    }, 3000);
+
+    return () => {
+      clearInterval(autoInterval);
+      clearTimeout(changeIdx());
+      clearTimeout(triggerVisibleAnimate());
+    };
+  }, [prodIdx, animate]);
+
   const settings = {
     dots: true,
     speed: 800,
@@ -96,10 +140,26 @@ export default function Home() {
           </div>
         </section>
 
-        <section className="relative pb-12">
-          <motion.div className="w-full flex justify-center items-center overflow-hidden object-cover" initial={{ rotateY: "90deg", opacity: 0 }} whileInView={{ rotateY: "0deg", opacity: 1 }}>
-            <Image src="/banner.jpg" width={3025} height={3025} alt="model-1" priority className="max-w-[200%]" />
-          </motion.div>
+        <section ref={scope} className="relative bg-color-3 py-24">
+          <div className="container max-w-6xl">
+            <div className="w-fit mx-auto mb-12">
+              <motion.h2 className="font-gajraj  text-6xl md:text-8xl" initial={{ translateY: "-50%", opacity: 0 }} whileInView={{ translateY: "0%", opacity: 1 }} >Wear.Ins</motion.h2>
+              <Divider />
+              <motion.h2 id="new-product-name" className="font-staatliches text-3xl md:text-4xl text-right" initial={{ translateY: "-50%", opacity: 0 }} whileInView={{ translateY: "0%", opacity: 1 }} >{PRODUCTS[prodIdx].name}</motion.h2>
+            </div>
+            <motion.h3 id="new-product-desc" className="absolute w-fit font-staatliches tracking-wider left-12 md:left-[10vw] text-2xl md:text-6xl text-center" initial={{ translateY: "-50%", opacity: 0 }} whileInView={{ translateY: "0%", opacity: 1 }} >New Product <br />{PRODUCTS[prodIdx].size.join(", ")}</motion.h3>
+          </div>
+
+          <div className="flex justify-center w-full h-[50vh] md:h-screen mb-3 rounded-2xl z-10">
+            <div className="relative top-10 w-[1500px]">
+              <Image id="new-image-front" src={PRODUCTS[prodIdx].images.light.front} alt={PRODUCTS[prodIdx].name} width={1028} height={1000} className="absolute -left-[15%] md:-left-0 z-20" />
+              <Image id="new-image-back" src={PRODUCTS[prodIdx].images.dark.front} alt={PRODUCTS[prodIdx].name} width={1028} height={1000} className="absolute -top-[10%] -right-[24%] md:-right-0 z-10" />
+            </div>
+          </div>
+
+          <motion.button className="absolute left-0 bottom-[10vh] md:bottom-[20vh] w-4/6 md:w-1/5 bg-color-2 text-xl md:text-5xl text-color-1 text-right font-bold h-fit p-2 pr-10 z-20" initial={{ translateX: "-100%", }} whileInView={{ translateX: "0%" }} >
+            <p>WEAR THIS</p>
+          </motion.button>
         </section>
 
         <section className="relative bg-online-shop bg-no-repeat py-12">

@@ -5,7 +5,6 @@ export const Divider = ({ bgColor }: { bgColor?: string }) => {
   const [scope, animate] = useAnimate();
 
   useEffect(() => {
-    console.log("scope: ", scope.current)
     //@ts-expect-error "target animate warning"
     animate("div#dot", { translateX: scope.current.clientWidth, rotate: "45deg" }, { repeat: Infinity, repeatType: "reverse", duration: 4, ease: "linear" });
   });
