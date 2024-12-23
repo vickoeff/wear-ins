@@ -1,15 +1,17 @@
-import { NextApiRequest, NextApiResponse } from "next";
 import { CREATE_PRODUCTS } from "@/app/actions/product";
+import { NextRequest, NextResponse } from "next/server";
 
-export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+export async function POST(req: NextRequest) {
   if (req.method === 'POST') {
     try {
-      const payload = req.body;
+      const payload = await req.json();
       const product = await CREATE_PRODUCTS(payload);
 
-      res.status(201).json(product);
+      NextResponse.json({ product, status: 201 });
     } catch (error: { message: string } | string | unknown) {
-      res.status(500).json({ message: 'Internal server error: ', error });
+      NextResponse.json({ message: `Internal server error: ${error}`, status: 500 });
     }
+  } else {
+    NextResponse.json({ message: 'Method not allowed', status: 405 });
   }
 }
