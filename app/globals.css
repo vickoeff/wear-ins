@@ -15,9 +15,9 @@
   --online-shop: url("/bg-online-shop.png");
 
   /** Product Images */
-  --techno-evolved_front_light: url("/products/techno-evolved_front_light.png");
-  --all-for-one_dark: url("/products/all-for-one_back_dark.png");
-  --all-for-one_light: url("/products/all-for-one_front_light.png");
+  --techno-evolved_front_light: url("https://res.cloudinary.com/dkqzrblhj/image/upload/v1734932452/wearins/products/techno-evolved_front_light.png");
+  --all-for-one_dark: url("https://res.cloudinary.com/dkqzrblhj/image/upload/v1734932452/wearins/products/all-for-one_back_dark.png");
+  --all-for-one_light: url("https://res.cloudinary.com/dkqzrblhj/image/upload/v1734932452/wearins/products/all-for-one_back_light.png");
 }
 
 @media (prefers-color-scheme: light) {
