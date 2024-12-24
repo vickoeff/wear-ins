@@ -1,9 +1,10 @@
 import { getProductById } from '@/services/product/getProductById';
 
 export default async function ProductDetailPage({ params }: {
-  params: Promise<{ slug: string }>
+  params: Promise<{ id: string }>
 }) {
-  const id = (await params).slug;
+  const id = (await params).id;
+  console.log("id: ", id);
   const data = await getProductById(id ?? "");
 
   if (!data) {

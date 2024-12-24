@@ -1,4 +1,4 @@
-import { GET_PRODUCT_BY_ID } from '@/app/actions/product';
+import { GET_PRODUCT_BY_ID } from '@/actions/product';
 import { NextRequest, NextResponse } from 'next/server';
 
 export async function GET(req: NextRequest) {

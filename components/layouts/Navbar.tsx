@@ -1,7 +1,7 @@
 import { NAV_ITEMS } from "@/constant/navbar";
 import Image from "next/image";
 import Link from "next/link";
-import { HiOutlineHeart, HiOutlineShoppingBag } from "react-icons/hi2";
+import { HiOutlineHeart } from "react-icons/hi2";
 import { FiMenu } from "react-icons/fi";
 
 export const Navbar = () => {
@@ -26,11 +26,8 @@ export const Navbar = () => {
             }
           </ul>
           <div className="relative flex items-center gap-4 top-0 w-1/12">
-            <Link href="/favourite" className="top-0">
+            <Link href="/favourite" className="bg-color-2 text-white p-4">
               <HiOutlineHeart className="text-4xl" />
-            </Link>
-            <Link href="/shopping-cart" className="bg-color-2 text-white p-4">
-              <HiOutlineShoppingBag className="text-4xl" />
             </Link>
           </div>
         </div>
