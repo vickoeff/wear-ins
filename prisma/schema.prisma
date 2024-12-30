@@ -28,37 +28,39 @@ model User {
   favorites favorite[]
 }
 
-model size {
-  id      String   @id @default(cuid())
-  name    String
+// model size {
+//   id      String   @id @default(cuid())
+//   name    String
 
-  Product Product[]
-}
+//   Product Product[]
+// }
 
-model material {
-  id      String   @id @default(cuid())
-  name    String
+// model material {
+//   id      String   @id @default(cuid())
+//   name    String
 
-  Product Product[]
-}
+//   Product Product[] @relation(name: "ProductMaterial")
+// }
 
-model image {
-  id      String   @id @default(cuid())
-  url     String
-  product Product @relation(fields: [productId], references: [id])
-  productId String
-  variant String
-}
+// model category {
+//   id      String   @id @default(cuid())
+//   name    String
+
+//   Product Product[] @relation(name: "ProductCategory")
+// }
 
 model Product {
   id      String   @id @default(cuid())
   name    String
   price   String
   stock   Int
-
-  material material[]
-  size    size[]
-  image image[]
+  material String
+  size    String
+  category   String
+  darkFront  String
+  darkBack   String
+  lightFront String
+  lightBack  String
 
   favorite favorite[]
 }

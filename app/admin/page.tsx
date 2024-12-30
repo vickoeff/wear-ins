@@ -1,18 +1,45 @@
 'use client'
 
 import { Badges } from '@/components/atoms';
-import React, { useContext } from 'react';
-import { HiMiniPlus, HiTrash } from 'react-icons/hi2';
+import React, { useContext, useEffect } from 'react';
+import { HiMiniPlus, HiPencil, HiTrash } from 'react-icons/hi2';
 import Image from "next/image";
-import { PRODUCTS } from '@/constant/products';
 import { ModalContext } from '@/context/ContextWrapper';
+import { useProducts } from '@/hooks/useProducts';
+import { deleteProduct } from '@/services/product/deleteProduct';
 
 const CreateProductPage: React.FC = () => {
   const modal = useContext(ModalContext);
+  const [page, setPage] = React.useState(1);
+  const [pageSize, setPageSize] = React.useState(5);
+
+  const { data, isLoading, refetch } = useProducts(page, pageSize);
 
   const handleOpenModal = () => {
     modal.toggle("create_product");
   }
+
+  const handleEditModal = (id: string) => {
+    modal.toggle("edit_product", id);
+  }
+
+  const handleDelete = async (id: string) => {
+    if (confirm('Are you sure you want to delete this product?')) {
+      try {
+        await deleteProduct(id);
+      } catch (error) {
+        console.error('Error delete product:', error);
+      }
+
+      refetch();
+    }
+  }
+
+  useEffect(() => {
+    if (!modal.isOpen['create_product'] && !modal.isOpen['edit_product']) {
+      refetch();
+    }
+  }, [modal.isOpen, refetch]);
 
   return (
     <div>
@@ -60,93 +87,105 @@ const CreateProductPage: React.FC = () => {
             </thead>
 
             <tbody>
-
-              <tr className="border-b dark:border-neutral-600 hover:bg-neutral-100 dark:hover:bg-neutral-600">
-                <th scope="row" className="px-6 py-4 border-x dark:border-neutral-600">
-                  <Image id="new-image-front" src={PRODUCTS[1].images.light.front} alt={PRODUCTS[0].name} width={160} height={160} />
-                </th>
-                <th scope="row" className="px-6 py-4 border-x dark:border-neutral-600">
-                  <Image id="new-image-front" src={PRODUCTS[1].images.dark.front} alt={PRODUCTS[1].name} width={160} height={160} />
-                </th>
-                <th scope="row" className="px-6 py-4 border-x dark:border-neutral-600">
-                  Handbag
-                </th>
-                <td className="px-6 py-4 border-x dark:border-neutral-600">$129.99</td>
-                <td className="px-6 py-4 border-x dark:border-neutral-600">30</td>
-                <td className="px-6 py-4 border-x dark:border-neutral-600"><Badges label={"In Stock"} state="success" /></td>
-                <td className="px-6 py-4 border-x dark:border-neutral-600"><button className='flex items-center gap-2 bg-red-500 p-2 rounded-sm'><HiTrash />Delete</button></td>
-              </tr>
-
-              <tr className="border-b dark:border-neutral-600 hover:bg-neutral-100 dark:hover:bg-neutral-600 bg-neutral-50 dark:bg-neutral-800">
-                <th scope="row" className="px-6 py-4 border-x dark:border-neutral-600">
-                  <Image id="new-image-front" src={PRODUCTS[0].images.light.front} alt={PRODUCTS[0].name} width={160} height={160} />
-                </th>
-                <th scope="row" className="px-6 py-4 border-x dark:border-neutral-600">
-                  <Image id="new-image-front" src={PRODUCTS[0].images.dark.front} alt={PRODUCTS[0].name} width={160} height={160} />
-                </th>
-                <th scope="row" className="px-6 py-4 border-x dark:border-neutral-600">
-                  Shoes
-                </th>
-                <td className="px-6 py-4 border-x dark:border-neutral-600">$89.50</td>
-                <td className="px-6 py-4 border-x dark:border-neutral-600">0</td>
-                <td className="px-6 py-4 border-x dark:border-neutral-600"><Badges label={"Out Of Stock"} state="error" /></td>
-                <td className="px-6 py-4 border-x dark:border-neutral-600"><button className='flex items-center gap-2 bg-red-500 p-2 rounded-sm'><HiTrash />Delete</button></td>
-              </tr>
-
+              {
+                isLoading ?
+                  <tr className={`border-b dark:border-neutral-600 hover:bg-neutral-100 dark:hover:bg-neutral-600 animate-pulse`}>
+                    <th scope="row" className="px-6 py-4 border-x dark:border-neutral-600">
+                      <div className="w-[160px] h-[160px] bg-slate-500 bg-opacity-40 rounded-lg"></div>
+                    </th>
+                    <th scope="row" className="px-6 py-4 border-x dark:border-neutral-600">
+                      <div className="w-[160px] h-[160px] bg-slate-500 bg-opacity-40 rounded-lg"></div>
+                    </th>
+                    <th scope="row" className="px-6 py-4 border-x dark:border-neutral-600">
+                      <div className="w-[160px] h-4 bg-slate-500 bg-opacity-40 rounded-lg"></div>
+                    </th>
+                    <td className="px-6 py-4 border-x dark:border-neutral-600">
+                      <div className="w-[160px] h-4 bg-slate-500 bg-opacity-40 rounded-lg"></div>
+                    </td>
+                    <td className="px-6 py-4 border-x dark:border-neutral-600">
+                      <div className="w-[160px] h-4 bg-slate-500 bg-opacity-40 rounded-lg"></div>
+                    </td>
+                    <td className="px-6 py-4 border-x dark:border-neutral-600">
+                      <div className="w-16 h-4 bg-slate-500 bg-opacity-40 rounded-lg"></div>
+                    </td>
+                    <td className="px-6 py-4 border-x dark:border-neutral-600">
+                      <div className="w-160 h-4 bg-slate-500 bg-opacity-40 rounded-lg"></div>
+                    </td>
+                  </tr> :
+                  data?.products.map((product, _idx) => {
+                    const isEven = _idx % 2 !== 0;
+                    return (
+                      <tr key={product.id} className={`border-b dark:border-neutral-600 hover:bg-neutral-100 dark:hover:bg-neutral-600 ${isEven ? 'bg-neutral-50 dark:bg-neutral-800' : ''}`}>
+                        <th scope="row" className="px-6 py-4 border-x dark:border-neutral-600">
+                          <Image id="new-image-front" src={product.lightFront} alt={product.name} width={160} height={160} />
+                        </th>
+                        <th scope="row" className="px-6 py-4 border-x dark:border-neutral-600">
+                          <Image id="new-image-front" src={product.darkFront} alt={product.name} width={160} height={160} />
+                        </th>
+                        <th scope="row" className="px-6 py-4 border-x dark:border-neutral-600">
+                          {product.name}
+                        </th>
+                        <td className="px-6 py-4 border-x dark:border-neutral-600">{product.price}</td>
+                        <td className="px-6 py-4 border-x dark:border-neutral-600">{product.stock}</td>
+                        <td className="px-6 py-4 border-x dark:border-neutral-600"><Badges label={product.stock > 0 ? "In Stock" : "Out Of Stock"} state={product.stock > 0 ? "success" : "error"} /></td>
+                        <td className="px-6 py-4 border-x dark:border-neutral-600">
+                          <div className=" flex gap-2 items-center justify-center">
+                            <button className='flex items-center gap-2 bg-gray-700 p-2 rounded-md' onClick={() => handleEditModal(product.id)}><HiPencil />Edit</button>
+                            <button className='flex items-center gap-2 bg-red-400 p-2 rounded-md' onClick={() => handleDelete(product.id)}><HiTrash />Delete</button>
+                          </div>
+                        </td>
+                      </tr>
+                    )
+                  })
+              }
             </tbody>
 
           </table>
 
           <nav className="mt-5 flex items-center justify-between text-sm" aria-label="Page navigation example">
-            <p>
-              Showing <strong>1-5</strong> of <strong>10</strong>
-            </p>
+            {
+              isLoading ?
+                <div className="w-[40px] h-4 bg-slate-500 bg-opacity-40 rounded-lg"></div>
+                :
+                <p>
+                  Showing <strong>{pageSize * page - (pageSize - 1)} - {data && pageSize > data?.total ? data?.total : pageSize}</strong> of <strong>{data?.total}</strong>
+                </p>
+            }
 
-            <ul className="list-style-none flex">
-              <li>
-                <a
-                  className="relative block rounded bg-transparent px-3 py-1.5 text-sm text-neutral-600 transition-all duration-300 hover:bg-neutral-100 dark:text-white dark:hover:bg-neutral-700 dark:hover:text-white"
-                  href="#!"
-                >
-                  Previous
-                </a>
-              </li>
-              <li>
-                <a
-                  className="relative block rounded bg-transparent px-3 py-1.5 text-sm text-neutral-600 transition-all duration-300 hover:bg-neutral-100 dark:text-white dark:hover:bg-neutral-700 dark:hover:text-white"
-                  href="#!"
-                >
-                  1
-                </a>
-              </li>
-              <li aria-current="page">
-                <a
-                  className="relative block rounded bg-blue-100 px-3 py-1.5 text-sm font-medium text-blue-700 transition-all duration-300"
-                  href="#!"
-                >
-                  2
-                  <span className="absolute -m-px h-px w-px overflow-hidden whitespace-nowrap border-0 p-0 [clip:rect(0,0,0,0)]">
-                    (current)
-                  </span>
-                </a>
-              </li>
-              <li>
-                <a
-                  className="relative block rounded bg-transparent px-3 py-1.5 text-sm text-neutral-600 transition-all duration-300 hover:bg-neutral-100 dark:text-white dark:hover:bg-neutral-700 dark:hover:text-white"
-                  href="#!"
-                >
-                  3
-                </a>
-              </li>
-              <li>
-                <a
-                  className="relative block rounded bg-transparent px-3 py-1.5 text-sm text-neutral-600 transition-all duration-300 hover:bg-neutral-100 dark:text-white dark:hover:bg-neutral-700 dark:hover:text-white"
-                  href="#!"
-                >
-                  Next
-                </a>
-              </li>
-            </ul>
+            {
+              isLoading ?
+                <div className="w-[160px] h-4 bg-slate-500 bg-opacity-40 rounded-lg"></div>
+                :
+                <ul className="list-style-none flex">
+                  <li>
+                    <a
+                      className="relative block rounded bg-transparent px-3 py-1.5 text-sm text-neutral-600 transition-all duration-300 hover:bg-neutral-100 dark:text-white dark:hover:bg-neutral-700 dark:hover:text-white"
+                      href="#!"
+                      onClick={() => setPage(page - 1)}
+                    >
+                      Previous
+                    </a>
+                  </li>
+                  <li>
+                    <a
+                      className="relative block rounded bg-transparent px-3 py-1.5 text-sm text-neutral-600 transition-all duration-300 hover:bg-neutral-100 dark:text-white dark:hover:bg-neutral-700 dark:hover:text-white"
+                      href="#!"
+                      onClick={() => setPage(1)}
+                    >
+                      1
+                    </a>
+                  </li>
+                  <li>
+                    <a
+                      className="relative block rounded bg-transparent px-3 py-1.5 text-sm text-neutral-600 transition-all duration-300 hover:bg-neutral-100 dark:text-white dark:hover:bg-neutral-700 dark:hover:text-white"
+                      href="#!"
+                      onClick={() => setPage(page + 1)}
+                    >
+                      Next
+                    </a>
+                  </li>
+                </ul>
+            }
           </nav>
 
         </div>

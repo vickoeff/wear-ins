@@ -21,6 +21,8 @@ export default function Home() {
       animate("#new-image-back", { opacity: 1 }, { delay: 0.5 });
       animate("#new-product-name", { opacity: 1 }, { delay: 0.5 });
       animate("#new-product-desc", { opacity: 1 }, { delay: 0.5 });
+
+      clearTimeout(triggerVisibleAnimate());
     }
 
     const handleChange = () => {
@@ -29,6 +31,7 @@ export default function Home() {
       } else {
         setProdIdx(prodIdx + 1);
       }
+      clearTimeout(changeIdx());
     }
 
     const changeIdx = () => setTimeout(handleChange, 200);
@@ -48,8 +51,6 @@ export default function Home() {
 
     return () => {
       clearInterval(autoInterval);
-      clearTimeout(changeIdx());
-      clearTimeout(triggerVisibleAnimate());
     };
   }, [prodIdx, animate]);
 
