@@ -1,19 +1,15 @@
 'use client'
 
 import Image from "next/image";
+import Link from "next/link";
 import { useState } from "react";
 
 interface ICatalogCardProps {
-  images: {
-    light: {
-      front: string;
-      back: string;
-    }
-    dark: {
-      front: string;
-      back: string;
-    }
-  }
+  id: string;
+  darkFront: string;
+  darkBack: string;
+  lightFront: string;
+  lightBack: string;
   name: string;
   material: string;
   size: string[] | string;
@@ -21,7 +17,7 @@ interface ICatalogCardProps {
   stock: string | number;
 }
 
-export const CatalogCard = ({ images, name, material, price, size, stock }: ICatalogCardProps) => {
+export const CatalogCard = ({ id, darkFront, darkBack, lightFront, lightBack, name, material, price, size, stock }: ICatalogCardProps) => {
   const [selectedColor, setSelectedColor] = useState<"light" | "dark">("light");
 
   return (
@@ -33,8 +29,8 @@ export const CatalogCard = ({ images, name, material, price, size, stock }: ICat
         </div>
         <div className="bg-color-1 w-full h-[360px] mb-3 rounded-2xl">
           <div className="relative top-10 w-[350px] mx-auto h-[360px]">
-            <Image src={images[selectedColor].back} width={350} height={3025} alt="model-1" priority className="absolute -top-8 -left-[15%] max-w-[200%]" />
-            <Image src={images[selectedColor].front} width={350} height={3025} alt="model-1" priority className="absolute left-[12%] max-w-[200%]" />
+            <Image src={selectedColor === "dark" ? darkFront : lightFront} width={350} height={3025} alt="model-back" priority className="absolute -top-8 -left-[15%] max-w-[200%]" />
+            <Image src={selectedColor === "dark" ? darkBack : lightBack} width={350} height={3025} alt="model-front" priority className="absolute left-[12%] max-w-[200%]" />
           </div>
         </div>
         <h3 className="bg-color-1 p-2 text-center font-bold uppercase text-xl mb-2 rounded-full">{name}</h3>
@@ -64,6 +60,7 @@ export const CatalogCard = ({ images, name, material, price, size, stock }: ICat
             <p className="relative w-fit mx-auto before:content-[''] before:w-full before:h-[1px] before:absolute before:top-0 before:bottom-0 before:my-auto before:bg-color-2">{price}</p>
             <p className="text-center text-3xl">{price}</p>
           </div>
+          <Link href={`/product/${id}`} className="bg-color-1 p-1 px-4 my-1 rounded-full text-center border-2 border-color-2">Check Detail</Link>
         </div>
       </div>
     </div>

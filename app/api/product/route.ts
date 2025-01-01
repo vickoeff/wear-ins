@@ -28,7 +28,6 @@ export async function POST(req: NextRequest) {
     try {
       const payload = await req.json();
       const product = await CREATE_PRODUCT(payload);
-      console.log("produk", product);
 
       return NextResponse.json({ product, status: 201 });
     } catch (error: { message: string } | string | unknown) {

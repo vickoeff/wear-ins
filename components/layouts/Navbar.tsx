@@ -1,8 +1,9 @@
 import { NAV_ITEMS } from "@/constant/navbar";
 import Image from "next/image";
 import Link from "next/link";
-import { HiOutlineHeart } from "react-icons/hi2";
 import { FiMenu } from "react-icons/fi";
+import { AiOutlineHeart } from "react-icons/ai";
+import { MdPersonOutline } from "react-icons/md";
 
 export const Navbar = () => {
   return (
@@ -25,9 +26,12 @@ export const Navbar = () => {
               ))
             }
           </ul>
-          <div className="relative flex items-center gap-4 top-0 w-1/12">
+          <div className="relative flex items-center gap-2 top-0 w-1/12">
             <Link href="/favourite" className="bg-color-2 text-white p-4">
-              <HiOutlineHeart className="text-4xl" />
+              <AiOutlineHeart className="text-4xl" />
+            </Link>
+            <Link href="/login" className="text-color-2 p-4">
+              <MdPersonOutline className="text-4xl" />
             </Link>
           </div>
         </div>

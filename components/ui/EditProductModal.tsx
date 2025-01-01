@@ -1,3 +1,5 @@
+'use client'
+
 import { ModalContext } from '@/context/ContextWrapper';
 import { editProduct } from '@/services/product/editProduct';
 import { getProductById } from '@/services/product/getProductById';

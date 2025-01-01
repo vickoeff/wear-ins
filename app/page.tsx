@@ -3,6 +3,7 @@
 import { Divider } from "@/components/atoms";
 import { CatalogCard } from "@/components/ui";
 import { PRODUCTS } from "@/constant/products";
+import { useProducts } from "@/hooks/useProducts";
 import { motion, MotionConfig, useAnimate } from "motion/react";
 import Image from "next/image";
 import Link from "next/link";
@@ -13,6 +14,8 @@ export default function Home() {
   const [prodIdx, setProdIdx] = useState<number>(0);
   // Auto Change New Products Animation
   const [scope, animate] = useAnimate();
+
+  const { data, isLoading } = useProducts();
 
   // Set Auto change New Products
   useEffect(() => {
@@ -130,15 +133,18 @@ export default function Home() {
 
         <section className="relative py-12">
           <motion.h2 className="text-8xl font-staatliches text-center mb-8" initial={{ translateY: "50%", opacity: 0 }} whileInView={{ translateY: "0%", opacity: 1 }}>CATALOG</motion.h2>
-          <div>
-            <Slider {...settings}>
-              {
-                PRODUCTS.map((item, idx) => (
-                  <CatalogCard key={idx} {...item} />
-                ))
-              }
-            </Slider>
-          </div>
+          {
+            isLoading || !data ? <div>Loading...</div> :
+              <div>
+                <Slider {...settings}>
+                  {
+                    data.products.map((item, idx) => (
+                      <CatalogCard key={idx} {...item} />
+                    ))
+                  }
+                </Slider>
+              </div>
+          }
         </section>
 
         <section ref={scope} className="relative bg-color-3 py-24">
@@ -171,7 +177,7 @@ export default function Home() {
               <ul className="flex justify-center gap-2 md:gap-28 py-12 pt-10">
                 <motion.li initial={{ translateY: "50%", opacity: 0 }} whileInView={{ translateY: "0%", opacity: 1, transition: { delay: 0 } }} >
                   <Link href="">
-                    <Image src="/blibli.png" width={115} height={3025} alt="model-1" priority className="max-w-[200%]" />
+                    <Image src="/tiktok.png" width={115} height={3025} alt="model-1" priority className="max-w-[200%]" />
                   </Link>
                 </motion.li>
                 <motion.li initial={{ translateY: "50%", opacity: 0 }} whileInView={{ translateY: "0%", opacity: 1, transition: { delay: 0.2 } }} >

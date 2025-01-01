@@ -1,3 +1,5 @@
+'use client'
+
 import { ModalContext } from '@/context/ContextWrapper';
 import { createProduct } from '@/services/product/createProduct';
 import { Product } from '@prisma/client';
