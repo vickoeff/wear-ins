@@ -177,7 +177,7 @@ export default function Home() {
               <ul className="flex justify-center gap-2 md:gap-28 py-12 pt-10">
                 <motion.li initial={{ translateY: "50%", opacity: 0 }} whileInView={{ translateY: "0%", opacity: 1, transition: { delay: 0 } }} >
                   <Link href="">
-                    <Image src="/tiktok.png" width={115} height={3025} alt="model-1" priority className="max-w-[200%]" />
+                    <Image src="https://res.cloudinary.com/dkqzrblhj/image/upload/v1735791762/tiktok.png" width={100} height={3025} alt="model-1" priority className="max-w-[200%]" />
                   </Link>
                 </motion.li>
                 <motion.li initial={{ translateY: "50%", opacity: 0 }} whileInView={{ translateY: "0%", opacity: 1, transition: { delay: 0.2 } }} >

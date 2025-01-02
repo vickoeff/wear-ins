@@ -1,11 +1,19 @@
+'use client'
+
+import { usePathname } from 'next/navigation';
 import { NAV_ITEMS } from "@/constant/navbar";
 import Image from "next/image";
 import Link from "next/link";
 import { FiMenu } from "react-icons/fi";
 import { AiOutlineHeart } from "react-icons/ai";
 import { MdPersonOutline } from "react-icons/md";
+import { Divider } from '../atoms';
 
 export const Navbar = () => {
+  const path = usePathname();
+
+  console.log("path", path);
+
   return (
     <nav className="sticky top-0 bg-white z-50 shadow-sm">
       <div className="container flex justify-between items-center px-4 md:px-0 py-2 md:py-0">
@@ -22,6 +30,7 @@ export const Navbar = () => {
                   <Link href={item.path}>
                     {item.label}
                   </Link>
+                  {item.path == path && <Divider />}
                 </li>
               ))
             }
