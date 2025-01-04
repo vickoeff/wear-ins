@@ -10,22 +10,74 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model favorite {
-  id      String   @id @default(cuid())
-  user    User     @relation(fields: [userId], references: [id])
-  userId  String
-  product Product  @relation(fields: [productId], references: [id])
-  productId String
+model User {
+  id                    String                 @id @default(cuid())
+  name                  String?
+  email                 String?                @unique
+  emailVerified         DateTime?              @map("email_verified")
+  role                  String                 @default("USER")
+  image                 String?
+  accounts              Account[]
+  isTwoFactorEnabled    Boolean                @default(false)
+  twoFactorConfirmation TwoFactorConfirmation?
+
+  @@map("users")
+  Favorite Favorite[]
 }
 
-model User {
-  id       String   @id @default(cuid())
-  email    String   @unique
-  password String
-  name     String
-  role     String
+model Account {
+  id                String  @id @default(cuid())
+  userId            String  @map("user_id")
+  type              String
+  provider          String
+  providerAccountId String  @map("provider_account_id")
+  refresh_token     String?
+  access_token      String?
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String?
+  session_state     String?
 
-  favorites favorite[]
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+  @@map("accounts")
+}
+
+model VerificationToken {
+  id      String   @id @default(cuid())
+  email   String
+  token   String   @unique
+  expires DateTime
+
+  @@unique([email, token])
+}
+
+model PasswordResetToken {
+  id      String   @id @default(cuid())
+  email   String
+  token   String   @unique
+  expires DateTime
+
+  @@unique([email, token])
+}
+
+model TwoFactorToken {
+  id      String   @id @default(cuid())
+  email   String
+  token   String   @unique
+  expires DateTime
+
+  @@unique([email, token])
+}
+
+model TwoFactorConfirmation {
+  id     String @id @default(cuid())
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId])
 }
 
 // model size {
@@ -62,5 +114,21 @@ model Product {
   lightFront String
   lightBack  String
 
-  favorite favorite[]
+  gallery Gallery[]
+  Favorite Favorite[]
+}
+
+model Favorite {
+  id      String   @id @default(cuid())
+  user    User     @relation(fields: [userId], references: [id])
+  userId  String
+  product Product  @relation(fields: [productId], references: [id])
+  productId String
+}
+
+model Gallery {
+  id        String   @id @default(cuid())
+  imageUrl  String
+  product   Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  productId String
 }

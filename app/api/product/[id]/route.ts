@@ -4,7 +4,6 @@ import { NextRequest, NextResponse } from 'next/server';
 export async function GET(req: NextRequest) {
   const params = req.nextUrl.pathname;
   const id = params.split("/").at(-1);
-  console.log("id api:", id);
 
   if (req.method === 'GET') {
     try {

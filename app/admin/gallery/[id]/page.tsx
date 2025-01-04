@@ -8,13 +8,17 @@ import { ModalContext } from '@/context/ContextWrapper';
 import { useProducts } from '@/hooks/useProducts';
 import { deleteProduct } from '@/services/product/deleteProduct';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 
 const CreateProductPage: React.FC = () => {
+  const path = usePathname();
+  const id = path.split("/").at(-1);
+
   const modal = useContext(ModalContext);
   const [page, setPage] = React.useState(1);
   const [pageSize, setPageSize] = React.useState(5);
 
-  const { data, isLoading, refetch } = useProducts(page, pageSize);
+  const { data, isLoading, refetch } = useGallery(page, pageSize);
 
   const handleOpenModal = () => {
     modal.toggle("create_product");

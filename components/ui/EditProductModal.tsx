@@ -43,7 +43,7 @@ export const EditProductModal = () => {
 
   return (
     <div className='fixed top-0 left-0 w-full h-full bg-gray-900 bg-opacity-50 flex items-center justify-center z-50' onClick={closeModal}>
-      <div className='w-full md:w-1/2 2xl:w-1/3 bg-white p-8 rounded-lg' onClick={(e) => e.stopPropagation()}>
+      <div className='w-full md:w-1/2 2xl:w-1/3 bg-white p-8 rounded-lg shadow-md' onClick={(e) => e.stopPropagation()}>
         <h1 className="text-xl mb-4">Edit Product</h1>
 
         <form onSubmit={handleSubmit(onSubmit)}>

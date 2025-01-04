@@ -8,11 +8,16 @@ import { FiMenu } from "react-icons/fi";
 import { AiOutlineHeart } from "react-icons/ai";
 import { MdPersonOutline } from "react-icons/md";
 import { Divider } from '../atoms';
+import { useContext } from 'react';
+import { ModalContext } from '@/context/ContextWrapper';
 
 export const Navbar = () => {
   const path = usePathname();
+  const modal = useContext(ModalContext);
 
-  console.log("path", path);
+  const handleOpenLoginModal = () => {
+    modal.toggle('login');
+  }
 
   return (
     <nav className="sticky top-0 bg-white z-50 shadow-sm">
@@ -39,9 +44,9 @@ export const Navbar = () => {
             <Link href="/favourite" className="bg-color-2 text-white p-4">
               <AiOutlineHeart className="text-4xl" />
             </Link>
-            <Link href="/login" className="text-color-2 p-4">
+            <button className="text-color-2 p-4" onClick={handleOpenLoginModal}>
               <MdPersonOutline className="text-4xl" />
-            </Link>
+            </button>
           </div>
         </div>
         <button className="md:hidden text-4xl">

@@ -1,8 +1,6 @@
 import { Product } from "@prisma/client";
 import prisma from "./prisma";
 
-
-
 export async function GET_PRODUCTS(page?: number, pageSize?: number) {
   const total = await prisma.product.count();
 
