@@ -1,7 +1,7 @@
 "use server";
 
 import * as z from "zod";
-import { signIn } from "@/auth";
+import auth from "@/auth";
 import AuthError from "next-auth";
 import { LoginSchema } from "@/schema";
 import { revalidatePath } from "next/cache";
@@ -37,12 +37,12 @@ export const login = async (values: z.infer<typeof LoginSchema>) => {
       verificationToken.token
     );
 
-    return { success: "Confirmation email sent!" };
+    return { success: "Verify your email!" };
   }
 
   try {
     // Sign in the user with credentials
-    await signIn("credentials", {
+    await auth.signIn("credentials", {
       email,
       password,
       redirectTo:

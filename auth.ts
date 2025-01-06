@@ -18,7 +18,7 @@ declare module "next-auth" {
   }
 }
 
-export const { handlers, auth, signIn, signOut, unstable_update } = NextAuth({
+export default NextAuth({
   pages: {
     signIn: "/auth/login",
     error: "/auth/error",
