@@ -16,7 +16,7 @@ export const Navbar = () => {
   const modal = useContext(ModalContext);
 
   const handleOpenLoginModal = () => {
-    modal.toggle('login');
+    modal.toggle('auth');
   }
 
   return (
