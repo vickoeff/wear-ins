@@ -7,16 +7,14 @@ import { Divider } from '../atoms';
 // import Image from "next/image";
 import { z } from 'zod';
 import { LoginSchema, RegisterSchema } from '@/schema';
-import { login } from '@/services/auth/login';
-import { register as Register } from '@/services/auth/register';
-import { newVerification } from '@/services/auth/verfication';
-import { useRouter } from 'next/navigation';
+import { login } from '@/actions/login';
+import { register as Register } from '@/actions/register';
+import { emailVerification } from '@/actions/verification';
 
 interface IFormAuth { name: string; email: string, password: string, confirmPassword: string, code: string }
 
 export const AuthModal = () => {
   const modal = useContext(ModalContext);
-  const route = useRouter();
   const [authState, setAuthState] = useState<'login' | 'register' | 'verify'>('login');
   const [submitError, setSubmitError] = useState<string | null>(null);
   const [successSubmit, setSubmitSuccess] = useState<string | null>(null);
@@ -58,7 +56,7 @@ export const AuthModal = () => {
                 return setAuthState("verify");
               }
 
-              route.refresh();
+              setTimeout(() => modal.toggle("auth"), 1000);
             }
           })
           .catch(() => setSubmitError("Something went wrong"));
@@ -66,7 +64,7 @@ export const AuthModal = () => {
     } else if (authState === 'verify') {
       const v = values as { code: string };
       startTransition(() => {
-        newVerification(v.code)
+        emailVerification(v.code)
           .then(data => {
             if (data?.error) {
               reset();
@@ -76,7 +74,7 @@ export const AuthModal = () => {
             if (data?.success) {
               reset();
               setSubmitSuccess(data.success);
-              route.refresh();
+              setTimeout(() => setAuthState("login"), 1000);
             }
           })
           .catch(() => setSubmitError("Something went wrong"));
@@ -149,7 +147,7 @@ export const AuthModal = () => {
           </h3>
         </div>
       )}
-      <div className={`w-full md:w-1/4 2xl:w-1/5 bg-color-1 p-8 rounded-lg shadow-md transition-transform ${(submitError || errors.root) && "border-4 border-red-600 rounded-t-none"} ${successSubmit && "border-4 border-green-600"}`} onClick={(e) => e.stopPropagation()}>
+      <div className={`w-full md:w-1/4 2xl:w-1/5 bg-color-1 p-8 rounded-lg shadow-md transition-transform ${(submitError || errors.root) && "border-4 border-red-600 rounded-t-none"} ${successSubmit && "border-4 border-green-600 rounded-t-none"}`} onClick={(e) => e.stopPropagation()}>
         <div className="text-right -mb-5">
           <h1 className="mb-4 font-staatliches text-8xl">{authState}</h1>
           <h2 className="relative -top-5 font-poppins text-3xl font-bold">Wear.Ins</h2>

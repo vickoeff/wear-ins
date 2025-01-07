@@ -8,16 +8,22 @@ import { FiMenu } from "react-icons/fi";
 import { AiOutlineHeart } from "react-icons/ai";
 import { MdPersonOutline } from "react-icons/md";
 import { Divider } from '../atoms';
-import { useContext } from 'react';
+import { useContext, useEffect } from 'react';
 import { ModalContext } from '@/context/ContextWrapper';
+import { useUser } from '@/hooks/useUser';
 
 export const Navbar = () => {
   const path = usePathname();
   const modal = useContext(ModalContext);
+  const { user } = useUser();
 
   const handleOpenLoginModal = () => {
     modal.toggle('auth');
   }
+
+  useEffect(() => {
+    console.log("user:", user);
+  }, [user])
 
   return (
     <nav className="sticky top-0 bg-white z-50 shadow-sm">

@@ -4,8 +4,7 @@ import "./globals.css";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 
-import { Footer, Navbar } from "@/components/layouts";
-import { ContextWrapper } from "@/context/ContextWrapper";
+import { MainLayout } from "@/components/layouts";
 
 const poppins = Poppins({
   variable: "--font-poppins",
@@ -40,11 +39,9 @@ export default function RootLayout({
       <body
         className={`${poppins.variable} ${staatliches.variable} ${gajraj.variable} antialiased`}
       >
-        <ContextWrapper>
-          <Navbar />
+        <MainLayout>
           {children}
-          <Footer />
-        </ContextWrapper>
+        </MainLayout>
       </body>
     </html>
   );

@@ -1,6 +1,7 @@
 'use client'
 
 import { EditProductModal, CreateProductModal, AuthModal } from "@/components/ui";
+import { SessionProvider } from "next-auth/react";
 import { createContext, useState } from "react";
 
 // Modal Default State
@@ -32,11 +33,13 @@ export function ContextWrapper({ children }: { children: React.ReactNode }) {
   }
 
   return (
-    <ModalContext.Provider value={{ isOpen, params, toggle }}>
-      {children}
-      <CreateProductModal />
-      <EditProductModal />
-      <AuthModal />
-    </ModalContext.Provider>
+    <SessionProvider>
+      <ModalContext.Provider value={{ isOpen, params, toggle }}>
+        {children}
+        <CreateProductModal />
+        <EditProductModal />
+        <AuthModal />
+      </ModalContext.Provider>
+    </SessionProvider>
   );
 }

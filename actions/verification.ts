@@ -4,7 +4,7 @@ import prisma from "@/actions/prisma";
 import { GET_USER_BY_EMAIL } from "@/actions/user";
 import { getVerificationTokenByToken } from "@/actions/auth";
 
-export const newVerification = async (token: string) => {
+export const emailVerification = async (token: string) => {
   const existingToken = await getVerificationTokenByToken(token);
 
   if (!existingToken) {

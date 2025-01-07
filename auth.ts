@@ -1,9 +1,12 @@
 import prisma from "./actions/prisma";
 import NextAuth from "next-auth";
-import authConfig from "./auth.config";
-import { GET_USER_BY_ID } from "./actions/user";
+import { GET_USER_BY_EMAIL, GET_USER_BY_ID } from "./actions/user";
 import { GET_ACCOUNT_BY_ID } from "./actions/auth";
 import { PrismaAdapter } from "@auth/prisma-adapter";
+import Google from "next-auth/providers/google";
+import CredentialsProvider from "next-auth/providers/credentials";
+import { LoginSchema } from "./schema";
+import bcrypt from "bcryptjs";
 
 declare module "next-auth" {
   interface Session {
@@ -18,11 +21,39 @@ declare module "next-auth" {
   }
 }
 
-export default NextAuth({
+export const { handlers, auth, signIn, signOut, unstable_update } = NextAuth({
   pages: {
     signIn: "/auth/login",
+    signOut: '/auth/signout',
     error: "/auth/error",
   },
+  providers: [
+    Google({
+      clientId: process.env.GOOGLE_CLIENT_ID || "",
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET || "",
+    }),
+    CredentialsProvider({
+      credentials: {
+        email: { label: "Email", type: "text", },
+        password: { label: "Password", type: "password" },
+      },
+      async authorize(credentials) {
+        const validatedFields = LoginSchema.safeParse(credentials);
+        if (validatedFields.success) {
+          const { email, password } = validatedFields.data;
+          const user = await GET_USER_BY_EMAIL(email);
+
+          if (!user || !user.password) return null;
+
+          const passwordsMatch = await bcrypt.compare(password, user.password);
+          console.log("passwordMatch: ", passwordsMatch)
+
+          if (passwordsMatch) return user;
+        }
+        return null;
+      },
+    }),
+  ],
   events: {
     async linkAccount({ user }) {
       await prisma.user.update({
@@ -81,5 +112,5 @@ export default NextAuth({
   },
   adapter: PrismaAdapter(prisma),
   session: { strategy: "jwt" },
-  ...authConfig,
+  secret: process.env.AUTH_SECRET,
 });

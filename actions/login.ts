@@ -1,12 +1,11 @@
 "use server";
 
 import * as z from "zod";
-import auth from "@/auth";
+import { signIn } from "@/auth";
 import AuthError from "next-auth";
+import bcrypt from "bcryptjs";
 import { LoginSchema } from "@/schema";
-import { revalidatePath } from "next/cache";
-import { GET_USER_BY_EMAIL } from "../../actions/user";
-import { DEFAULT_LOGIN_REDIRECT } from "@/constant/routes";
+import { GET_USER_BY_EMAIL } from "./user";
 import { sendVerificationEmail } from "@/libs/mail";
 import {
   generateVerificationToken
@@ -23,8 +22,14 @@ export const login = async (values: z.infer<typeof LoginSchema>) => {
 
   const existingUser = await GET_USER_BY_EMAIL(email);
 
-  if (!existingUser || !existingUser.email || !existingUser.password) {
+  if (!existingUser || !existingUser.email) {
     return { error: "Email does not exist!" };
+  }
+
+  const isValidPassword = await bcrypt.compare(password, existingUser?.password ?? "");
+
+  if (!isValidPassword) {
+    return { error: "Wrong Password!" };
   }
 
   if (!existingUser.emailVerified) {
@@ -37,36 +42,31 @@ export const login = async (values: z.infer<typeof LoginSchema>) => {
       verificationToken.token
     );
 
-    return { success: "Verify your email!" };
+    return { error: "Verify your email!" };
   }
 
   try {
-    // Sign in the user with credentials
-    await auth.signIn("credentials", {
+    await signIn("credentials", {
       email,
       password,
-      redirectTo:
-        existingUser.role === "ADMIN"
-          ? "/dashboard/admin"
-          : DEFAULT_LOGIN_REDIRECT,
+      redirect: false
     });
-
-    revalidatePath("/");
-    revalidatePath("/dashboard");
-    revalidatePath(DEFAULT_LOGIN_REDIRECT);
 
     return { success: "Logged in successfully!" };
   } catch (error) {
     if (error instanceof AuthError) {
       const authError = error as typeof AuthError;
+
       switch (authError) {
         // @ts-expect-error "fix later"
         case "CredentialsSignin":
           return { error: "Invalid credentials!" };
         default:
-          return { error: "Something went wrong!" };
+          return { error: `Something went wrong!: ${authError}` };
       }
     }
+
+    console.log("error: ", error);
     throw error;
   }
 };

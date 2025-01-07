@@ -1,3 +1,5 @@
+'use client'
+
 import { getProducts } from "@/services/product/getProducts";
 import { Product } from "@prisma/client";
 import { useCallback, useEffect, useState } from "react";

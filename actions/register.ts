@@ -5,7 +5,7 @@ import bcrypt from "bcryptjs";
 
 import prisma from "@/actions/prisma";
 import { RegisterSchema } from "@/schema";
-import { GET_USER_BY_EMAIL } from "../../actions/user";
+import { GET_USER_BY_EMAIL } from "./user";
 import { sendVerificationEmail } from "@/libs/mail";
 import { generateVerificationToken } from "@/libs/token";
 
