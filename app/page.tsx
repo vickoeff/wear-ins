@@ -1,7 +1,7 @@
 'use client'
 
 import { Divider } from "@/components/atoms";
-import { CatalogCard } from "@/components/ui";
+import { CatalogCard, SkeletonCard } from "@/components/ui";
 import { PRODUCTS } from "@/constant/products";
 import { useProducts } from "@/hooks/useProducts";
 import { motion, MotionConfig, useAnimate } from "motion/react";
@@ -134,7 +134,12 @@ export default function Home() {
         <section className="relative py-12">
           <motion.h2 className="text-8xl font-staatliches text-center mb-8" initial={{ translateY: "50%", opacity: 0 }} whileInView={{ translateY: "0%", opacity: 1 }}>CATALOG</motion.h2>
           {
-            isLoading || !data ? <div>Loading...</div> :
+            isLoading || !data ? (
+              <div className="flex flex-row gap-4 justify-center">
+                <SkeletonCard className="mx-0" />
+                <SkeletonCard className="mx-0" />
+              </div>
+            ) :
               <div>
                 <Slider {...settings}>
                   {

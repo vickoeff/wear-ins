@@ -1,5 +1,4 @@
 import prisma from "@/actions/prisma";
-import { auth } from "@/auth";
 
 export const getVerificationTokenByToken = async (token: string) => {
   try {
@@ -54,16 +53,3 @@ export async function GET_ACCOUNT_BY_ID(id: string) {
 
   return acccount;
 }
-
-
-export const getCurrentUser = async () => {
-  const session = await auth();
-
-  return session?.user;
-};
-
-export const getCurrentRole = async () => {
-  const session = await auth();
-
-  return session?.user?.role;
-};

@@ -42,7 +42,7 @@ export default async function ProductDetailPage({ params }: {
       </div>
       <ProductPreview />
       <div className='text-center'>
-        <button className='bg-color-2 text-color-1 rounded-xl px-14 py-2 text-4xl uppercase border-4 border-color-4'>Want This</button>
+        <button className='bg-color-2 text-color-1 rounded-xl px-14 py-2 text-4xl uppercase border-4 border-color-4'>Add To Favourite</button>
       </div>
     </div>
   );

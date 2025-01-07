@@ -1,5 +1,5 @@
 import prisma from "./actions/prisma";
-import NextAuth from "next-auth";
+import NextAuth, { NextAuthConfig } from "next-auth";
 import { GET_USER_BY_EMAIL, GET_USER_BY_ID } from "./actions/user";
 import { GET_ACCOUNT_BY_ID } from "./actions/auth";
 import { PrismaAdapter } from "@auth/prisma-adapter";
@@ -21,7 +21,7 @@ declare module "next-auth" {
   }
 }
 
-export const { handlers, auth, signIn, signOut, unstable_update } = NextAuth({
+export const authConfig: NextAuthConfig = {
   pages: {
     signIn: "/auth/login",
     signOut: '/auth/signout',
@@ -54,6 +54,12 @@ export const { handlers, auth, signIn, signOut, unstable_update } = NextAuth({
       },
     }),
   ],
+  adapter: PrismaAdapter(prisma),
+  session: { strategy: "jwt" },
+  secret: process.env.AUTH_SECRET,
+}
+
+export const { handlers, auth, signIn, signOut, unstable_update } = NextAuth({
   events: {
     async linkAccount({ user }) {
       await prisma.user.update({
@@ -109,8 +115,5 @@ export const { handlers, auth, signIn, signOut, unstable_update } = NextAuth({
 
       return token;
     },
-  },
-  adapter: PrismaAdapter(prisma),
-  session: { strategy: "jwt" },
-  secret: process.env.AUTH_SECRET,
+  }, ...authConfig
 });

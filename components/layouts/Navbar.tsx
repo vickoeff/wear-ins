@@ -6,24 +6,21 @@ import Image from "next/image";
 import Link from "next/link";
 import { FiMenu } from "react-icons/fi";
 import { AiOutlineHeart } from "react-icons/ai";
-import { MdPersonOutline } from "react-icons/md";
+import { MdLogout, MdPersonOutline } from "react-icons/md";
 import { Divider } from '../atoms';
-import { useContext, useEffect } from 'react';
+import { useContext } from 'react';
 import { ModalContext } from '@/context/ContextWrapper';
-import { useUser } from '@/hooks/useUser';
+import { useSession } from 'next-auth/react';
+import { signOut } from "next-auth/react"
 
 export const Navbar = () => {
   const path = usePathname();
   const modal = useContext(ModalContext);
-  const { user } = useUser();
+  const { status } = useSession();
 
   const handleOpenLoginModal = () => {
     modal.toggle('auth');
   }
-
-  useEffect(() => {
-    console.log("user:", user);
-  }, [user])
 
   return (
     <nav className="sticky top-0 bg-white z-50 shadow-sm">
@@ -37,22 +34,36 @@ export const Navbar = () => {
           <ul className="flex gap-8">
             {
               NAV_ITEMS.map((item, _idx) => (
-                <li key={_idx}>
+                <li key={_idx} className='relative'>
                   <Link href={item.path}>
                     {item.label}
                   </Link>
-                  {item.path == path && <Divider />}
+                  {item.path == path && (
+                    <div className="absolute w-full">
+                      <Divider />
+                    </div>
+                  )}
                 </li>
               ))
             }
           </ul>
+
           <div className="relative flex items-center gap-2 top-0 w-1/12">
-            <Link href="/favourite" className="bg-color-2 text-white p-4">
-              <AiOutlineHeart className="text-4xl" />
-            </Link>
-            <button className="text-color-2 p-4" onClick={handleOpenLoginModal}>
-              <MdPersonOutline className="text-4xl" />
-            </button>
+            {
+              status == "unauthenticated" ?
+                <button className="text-color-2 p-4" onClick={handleOpenLoginModal}>
+                  <MdPersonOutline className="text-4xl" />
+                </button>
+                :
+                <>
+                  <Link href="/favourite" className="bg-color-2 text-white p-4">
+                    <AiOutlineHeart className="text-4xl" />
+                  </Link>
+                  <button className="text-color-2 p-4" onClick={() => signOut()}>
+                    <MdLogout className="text-4xl" />
+                  </button>
+                </>
+            }
           </div>
         </div>
         <button className="md:hidden text-4xl">

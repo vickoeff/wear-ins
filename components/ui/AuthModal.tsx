@@ -56,7 +56,10 @@ export const AuthModal = () => {
                 return setAuthState("verify");
               }
 
-              setTimeout(() => modal.toggle("auth"), 1000);
+              setTimeout(() => {
+                modal.toggle("auth");
+                window.location.reload();
+              }, 1000);
             }
           })
           .catch(() => setSubmitError("Something went wrong"));
