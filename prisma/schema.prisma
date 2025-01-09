@@ -130,6 +130,7 @@ model Favorite {
 model Gallery {
   id        String  @id @default(cuid())
   imageUrl  String
+  description String
   product   Product @relation(fields: [productId], references: [id], onDelete: Cascade)
   productId String
 }

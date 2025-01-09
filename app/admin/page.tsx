@@ -94,15 +94,15 @@ const CreateProductPage: React.FC = () => {
               {
                 isLoading ?
                   <tr className={`border-b dark:border-neutral-600 hover:bg-neutral-100 dark:hover:bg-neutral-600 animate-pulse`}>
-                    <th scope="row" className="px-6 py-4 border-x dark:border-neutral-600">
+                    <td scope="row" className="px-6 py-4 border-x dark:border-neutral-600">
                       <div className="w-[160px] h-[160px] bg-slate-500 bg-opacity-40 rounded-lg"></div>
-                    </th>
-                    <th scope="row" className="px-6 py-4 border-x dark:border-neutral-600">
+                    </td>
+                    <td scope="row" className="px-6 py-4 border-x dark:border-neutral-600">
                       <div className="w-[160px] h-[160px] bg-slate-500 bg-opacity-40 rounded-lg"></div>
-                    </th>
-                    <th scope="row" className="px-6 py-4 border-x dark:border-neutral-600">
+                    </td>
+                    <td scope="row" className="px-6 py-4 border-x dark:border-neutral-600">
                       <div className="w-[160px] h-4 bg-slate-500 bg-opacity-40 rounded-lg"></div>
-                    </th>
+                    </td>
                     <td className="px-6 py-4 border-x dark:border-neutral-600">
                       <div className="w-[160px] h-4 bg-slate-500 bg-opacity-40 rounded-lg"></div>
                     </td>
@@ -123,15 +123,15 @@ const CreateProductPage: React.FC = () => {
                     const isEven = _idx % 2 !== 0;
                     return (
                       <tr key={product.id} className={`border-b dark:border-neutral-600 hover:bg-neutral-100 dark:hover:bg-neutral-600 ${isEven ? 'bg-neutral-50 dark:bg-neutral-800' : ''}`}>
-                        <th scope="row" className="px-6 py-4 border-x dark:border-neutral-600">
+                        <td scope="row" className="px-6 py-4 border-x dark:border-neutral-600">
                           <Image id="new-image-front" src={product.lightFront} alt={product.name} width={160} height={160} />
-                        </th>
-                        <th scope="row" className="px-6 py-4 border-x dark:border-neutral-600">
+                        </td>
+                        <td scope="row" className="px-6 py-4 border-x dark:border-neutral-600">
                           <Image id="new-image-front" src={product.darkFront} alt={product.name} width={160} height={160} />
-                        </th>
-                        <th scope="row" className="px-6 py-4 border-x dark:border-neutral-600">
+                        </td>
+                        <td scope="row" className="px-6 py-4 border-x dark:border-neutral-600">
                           {product.name}
-                        </th>
+                        </td>
                         <td className="px-6 py-4 border-x dark:border-neutral-600">{product.price}</td>
                         <td className="px-6 py-4 border-x dark:border-neutral-600">{product.stock}</td>
                         <td className="px-6 py-4 border-x dark:border-neutral-600"><Badges label={product.stock > 0 ? "In Stock" : "Out Of Stock"} state={product.stock > 0 ? "success" : "error"} /></td>

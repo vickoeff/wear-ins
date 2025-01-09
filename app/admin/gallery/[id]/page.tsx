@@ -1,39 +1,37 @@
 'use client'
 
-import { Badges } from '@/components/atoms';
 import React, { useContext, useEffect } from 'react';
-import { HiMiniPlus, HiPencil, HiTrash, HiPhoto } from 'react-icons/hi2';
+import { HiMiniPlus, HiPencil, HiTrash } from 'react-icons/hi2';
 import Image from "next/image";
 import { ModalContext } from '@/context/ContextWrapper';
-import { useProducts } from '@/hooks/useProducts';
-import { deleteProduct } from '@/services/product/deleteProduct';
-import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import { useGallery } from '@/hooks/useGallery';
+import { deletePhoto } from '@/services/gallery/deletePhoto';
 
 const CreateProductPage: React.FC = () => {
   const path = usePathname();
-  const id = path.split("/").at(-1);
+  const productId = path.split("/").at(-1) as string;
 
   const modal = useContext(ModalContext);
   const [page, setPage] = React.useState(1);
   const [pageSize, setPageSize] = React.useState(5);
 
-  const { data, isLoading, refetch } = useGallery(page, pageSize);
+  const { data, isLoading, refetch } = useGallery(productId, page, pageSize);
 
   const handleOpenModal = () => {
-    modal.toggle("create_product");
+    modal.toggle("add_gallery_photo", productId);
   }
 
   const handleEditModal = (id: string) => {
-    modal.toggle("edit_product", id);
+    modal.toggle("edit_gallery_photo", id);
   }
 
   const handleDelete = async (id: string) => {
-    if (confirm('Are you sure you want to delete this product?')) {
+    if (confirm('Are you sure you want to delete this photo?')) {
       try {
-        await deleteProduct(id);
+        await deletePhoto(id);
       } catch (error) {
-        console.error('Error delete product:', error);
+        console.error('Error delete photo:', error);
       }
 
       refetch();
@@ -41,7 +39,7 @@ const CreateProductPage: React.FC = () => {
   }
 
   useEffect(() => {
-    if (!modal.isOpen['create_product'] && !modal.isOpen['edit_product']) {
+    if (!modal.isOpen['add_gallery_photo'] && !modal.isOpen['edit_gallery_photo']) {
       refetch();
     }
   }, [modal.isOpen, refetch]);
@@ -61,32 +59,17 @@ const CreateProductPage: React.FC = () => {
                 </svg>
               </span>
             </div>
-            <button className='flex items-center bg-color-2 px-4 py-2 rounded-lg' onClick={handleOpenModal}><HiMiniPlus />  Add Product</button>
+            <button className='flex items-center bg-color-2 px-4 py-2 rounded-lg' onClick={handleOpenModal}><HiMiniPlus />  Add Photo</button>
           </div>
           <table className="min-w-full text-left text-xs whitespace-nowrap">
 
             <thead className="uppercase tracking-wider border-b-2 dark:border-neutral-600 bg-neutral-50 dark:bg-neutral-800 border-t">
               <tr>
                 <th scope="col" className="px-6 py-4 border-x dark:border-neutral-600">
-                  Light Image
+                  Product Photo
                 </th>
                 <th scope="col" className="px-6 py-4 border-x dark:border-neutral-600">
-                  Dark Image
-                </th>
-                <th scope="col" className="px-6 py-4 border-x dark:border-neutral-600">
-                  Name
-                </th>
-                <th scope="col" className="px-6 py-4 border-x dark:border-neutral-600">
-                  Price
-                </th>
-                <th scope="col" className="px-6 py-4 border-x dark:border-neutral-600">
-                  Stock
-                </th>
-                <th scope="col" className="px-6 py-4 border-x dark:border-neutral-600">
-                  Status
-                </th>
-                <th scope="col" className="px-6 py-4 border-x dark:border-neutral-600">
-                  Gallery Preview
+                  Description
                 </th>
                 <th scope="col" className="px-6 py-4 border-x dark:border-neutral-600">
                   Action
@@ -98,56 +81,28 @@ const CreateProductPage: React.FC = () => {
               {
                 isLoading ?
                   <tr className={`border-b dark:border-neutral-600 hover:bg-neutral-100 dark:hover:bg-neutral-600 animate-pulse`}>
-                    <th scope="row" className="px-6 py-4 border-x dark:border-neutral-600">
+                    <td scope="row" className="px-6 py-4 border-x dark:border-neutral-600">
                       <div className="w-[160px] h-[160px] bg-slate-500 bg-opacity-40 rounded-lg"></div>
-                    </th>
-                    <th scope="row" className="px-6 py-4 border-x dark:border-neutral-600">
-                      <div className="w-[160px] h-[160px] bg-slate-500 bg-opacity-40 rounded-lg"></div>
-                    </th>
-                    <th scope="row" className="px-6 py-4 border-x dark:border-neutral-600">
-                      <div className="w-[160px] h-4 bg-slate-500 bg-opacity-40 rounded-lg"></div>
-                    </th>
-                    <td className="px-6 py-4 border-x dark:border-neutral-600">
+                    </td>
+                    <td scope="row" className="px-6 py-4 border-x dark:border-neutral-600">
                       <div className="w-[160px] h-4 bg-slate-500 bg-opacity-40 rounded-lg"></div>
                     </td>
-                    <td className="px-6 py-4 border-x dark:border-neutral-600">
+                    <td scope="row" className="px-6 py-4 border-x dark:border-neutral-600">
                       <div className="w-[160px] h-4 bg-slate-500 bg-opacity-40 rounded-lg"></div>
-                    </td>
-                    <td className="px-6 py-4 border-x dark:border-neutral-600">
-                      <div className="w-16 h-4 bg-slate-500 bg-opacity-40 rounded-lg"></div>
-                    </td>
-                    <td className="px-6 py-4 border-x dark:border-neutral-600">
-                      <div className="w-16 h-4 bg-slate-500 bg-opacity-40 rounded-lg"></div>
-                    </td>
-                    <td className="px-6 py-4 border-x dark:border-neutral-600">
-                      <div className="w-160 h-4 bg-slate-500 bg-opacity-40 rounded-lg"></div>
                     </td>
                   </tr> :
-                  data?.products.map((product, _idx) => {
+                  data?.gallery.map((photo, _idx) => {
                     const isEven = _idx % 2 !== 0;
                     return (
-                      <tr key={product.id} className={`border-b dark:border-neutral-600 hover:bg-neutral-100 dark:hover:bg-neutral-600 ${isEven ? 'bg-neutral-50 dark:bg-neutral-800' : ''}`}>
-                        <th scope="row" className="px-6 py-4 border-x dark:border-neutral-600">
-                          <Image id="new-image-front" src={product.lightFront} alt={product.name} width={160} height={160} />
-                        </th>
-                        <th scope="row" className="px-6 py-4 border-x dark:border-neutral-600">
-                          <Image id="new-image-front" src={product.darkFront} alt={product.name} width={160} height={160} />
-                        </th>
-                        <th scope="row" className="px-6 py-4 border-x dark:border-neutral-600">
-                          {product.name}
-                        </th>
-                        <td className="px-6 py-4 border-x dark:border-neutral-600">{product.price}</td>
-                        <td className="px-6 py-4 border-x dark:border-neutral-600">{product.stock}</td>
-                        <td className="px-6 py-4 border-x dark:border-neutral-600"><Badges label={product.stock > 0 ? "In Stock" : "Out Of Stock"} state={product.stock > 0 ? "success" : "error"} /></td>
-                        <td className="px-6 py-4 border-x dark:border-neutral-600">
-                          <Link href={`/admin/gallery/${product.id}`}>
-                            <button className='flex items-center gap-2 bg-gray-700 p-2 rounded-md'><HiPhoto /> Edit Gallery</button>
-                          </Link>
+                      <tr key={photo.id} className={`border-b dark:border-neutral-600 hover:bg-neutral-100 dark:hover:bg-neutral-600 ${isEven ? 'bg-neutral-50 dark:bg-neutral-800' : ''}`}>
+                        <td scope="row" className="px-6 py-4 border-x dark:border-neutral-600">
+                          <Image id="new-image-front" src={photo.imageUrl} alt={`photo ${_idx} of ${photo.productId}`} width={160} height={160} />
                         </td>
+                        <td className="px-6 py-4 border-x dark:border-neutral-600">{photo.description}</td>
                         <td className="px-6 py-4 border-x dark:border-neutral-600">
                           <div className=" flex gap-2 items-center justify-center">
-                            <button className='flex items-center gap-2 bg-gray-700 p-2 rounded-md' onClick={() => handleEditModal(product.id)}><HiPencil />Edit</button>
-                            <button className='flex items-center gap-2 bg-red-400 p-2 rounded-md' onClick={() => handleDelete(product.id)}><HiTrash />Delete</button>
+                            <button className='flex items-center gap-2 bg-gray-700 p-2 rounded-md' onClick={() => handleEditModal(photo.id)}><HiPencil />Edit</button>
+                            <button className='flex items-center gap-2 bg-red-400 p-2 rounded-md' onClick={() => handleDelete(photo.id)}><HiTrash />Delete</button>
                           </div>
                         </td>
                       </tr>

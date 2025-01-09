@@ -10,7 +10,7 @@ export async function GET(req: NextRequest) {
     try {
       const { products, total } = await GET_PRODUCTS(page, pageSize);
 
-      if (products.length > 0) {
+      if (total > 0) {
         return NextResponse.json({ products, total, status: 200 });
       } else {
         return NextResponse.json({ message: 'No Products', status: 404 });

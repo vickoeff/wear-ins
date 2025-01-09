@@ -8,9 +8,9 @@ export default function Products() {
   const { data, isLoading } = useProducts();
 
   return (
-    <div className="container py-14">
-      <h1 className="font-staatliches text-6xl">Amazing T-Shirt Right?</h1>
-      <div className="flex flex-row gap-4 py-12">
+    <div className="container px-4 py-14">
+      <h1 className="font-staatliches text-6xl text-center md:text-left">Our List Product</h1>
+      <div className="flex flex-row flex-wrap justify-center md:justify-between gap-6 md:gap-4 py-12">
         {
           isLoading || !data ? (
             <>

@@ -1,10 +1,12 @@
 'use client'
 
-import { PRODUCTS } from "@/constant/products";
 import Slider from "react-slick";
 import Image from "next/image";
+import { useGallery } from "@/hooks/useGallery";
 
-export const ProductPreview = () => {
+export const ProductPreview = ({ productId }: { productId: string }) => {
+  const { data, isLoading } = useGallery(productId);
+
   const settings = {
     dots: false,
     speed: 800,
@@ -17,7 +19,7 @@ export const ProductPreview = () => {
         breakpoint: 1720,
         settings: {
           slidesToShow: 3,
-          slidesToScroll: 3,
+          slidesToScroll: 1,
           dots: true
         }
       },
@@ -40,17 +42,26 @@ export const ProductPreview = () => {
   };
 
   return (
-
     <div className="py-8">
-      <Slider {...settings}>
-        {
-          PRODUCTS.map((item, idx) => (
-            <div key={idx} className={`${idx % 2 == 0 ? "bg-color-1" : "bg-color-2"} hover:scale-150 transition-transform duration-500 ease-in-out cursor-pointer`}>
-              <Image src={idx % 2 == 0 ? item.images.dark.back : item.images.light.back} width={350} height={850} alt="model-back" priority className="m-auto" />
-            </div>
-          ))
-        }
-      </Slider>
+      {
+        isLoading || !data ? (
+          <div className="flex flex-row">
+            <div className={`bg-color-1 hover:scale-150 flex-1 h-[350px] transition-transform duration-500 ease-in-out cursor-pointer animate-pulse`} />
+            <div className={`bg-color-5 hover:scale-150 flex-1 h-[350px] transition-transform duration-500 ease-in-out cursor-pointer animate-pulse`} />
+            <div className={`bg-color-4 hover:scale-150 flex-1 h-[350px] transition-transform duration-500 ease-in-out cursor-pointer animate-pulse`} />
+          </div>
+        ) : (
+          <Slider {...settings}>
+            {
+              data?.gallery.map((photo, idx) => (
+                <div key={idx} className={`${idx % 2 == 0 ? "bg-color-1" : "bg-color-2"} hover:scale-150 transition-transform duration-500 ease-in-out cursor-pointer`}>
+                  <Image src={photo.imageUrl} width={350} height={850} alt={photo.description} priority className="m-auto" />
+                </div>
+              ))
+            }
+          </Slider>
+        )
+      }
     </div>
   )
 }

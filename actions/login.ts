@@ -66,7 +66,6 @@ export const login = async (values: z.infer<typeof LoginSchema>) => {
       }
     }
 
-    console.log("error: ", error);
     throw error;
   }
 };

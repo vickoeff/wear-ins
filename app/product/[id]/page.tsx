@@ -7,7 +7,6 @@ export default async function ProductDetailPage({ params }: {
   params: Promise<{ id: string }>
 }) {
   const id = (await params).id;
-  console.log("id: ", id);
   const data = await getProductById(id ?? "");
 
   if (!data) {
@@ -29,7 +28,7 @@ export default async function ProductDetailPage({ params }: {
         </div>
         <div className="relative w-[850px] mx-auto h-[850px]">
           <Image src={data?.product.lightBack} width={850} height={850} alt="model-back" priority className="absolute top-24 -left-[25%] max-w-[200%] z-20" />
-          <Image src={data?.product.darkBack} width={850} height={840} alt="model-front" priority className="absolute left-[25%] max-w-[200%] z-10" />
+          <Image src={data?.product.darkBack} width={850} height={850} alt="model-front" priority className="absolute left-[25%] max-w-[200%] z-10" />
         </div>
         <div className='font-staatliches tracking-wider text-4xl text-center -mt-12 w-fit float-right'>
           <h2>Price:</h2>
@@ -40,7 +39,7 @@ export default async function ProductDetailPage({ params }: {
       <div className='bg-color-1 font-staatliches tracking-widest text-4xl text-center mt-4 w-fit px-14 py-1 mx-auto'>
         Preview
       </div>
-      <ProductPreview />
+      <ProductPreview productId={id} />
       <div className='text-center'>
         <button className='bg-color-2 text-color-1 rounded-xl px-14 py-2 text-4xl uppercase border-4 border-color-4'>Add To Favourite</button>
       </div>

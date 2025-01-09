@@ -9,11 +9,11 @@ export async function createProduct(newProduct: Product): Promise<Product> {
     });
     return await response.json();
   } catch (error: { message: string } | string | unknown) {
-    console.error('Error fetching product:', error);
+    console.error('Error create product:', error);
     if (error instanceof Error) {
-      throw new Error(`Error fetching product: ${error.message}`);
+      throw new Error(`Error create product: ${error.message}`);
     } else {
-      throw new Error('Error fetching product');
+      throw new Error('Error create product');
     }
   }
 
