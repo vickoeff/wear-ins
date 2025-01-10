@@ -114,6 +114,9 @@ model Product {
   darkBack   String
   lightFront String
   lightBack  String
+  shopee     String @default("")
+  tokopedia  String @default("")
+  tiktok     String @default("")
 
   gallery  Gallery[]
   Favorite Favorite[]

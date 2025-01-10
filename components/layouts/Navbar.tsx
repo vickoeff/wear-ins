@@ -50,7 +50,7 @@ export const Navbar = () => {
 
           <div className="relative flex items-center gap-2 top-0 w-1/12">
             {
-              status == "unauthenticated" ?
+              !status || status == "unauthenticated" ?
                 <button className="text-color-2 p-4" onClick={handleOpenLoginModal}>
                   <MdPersonOutline className="text-4xl" />
                 </button>

@@ -84,7 +84,10 @@ const CreateProductPage: React.FC = () => {
                 <th scope="col" className="px-6 py-4 border-x dark:border-neutral-600">
                   Gallery Preview
                 </th>
-                <th scope="col" className="px-6 py-4 border-x dark:border-neutral-600">
+                <th scope="col" className="px-6 py-4 border-x dark:border-neutral-600 text-center">
+                  Online Shop
+                </th>
+                <th scope="col" className="px-6 py-4 border-x dark:border-neutral-600 text-center">
                   Action
                 </th>
               </tr>
@@ -101,6 +104,9 @@ const CreateProductPage: React.FC = () => {
                       <div className="w-[160px] h-[160px] bg-slate-500 bg-opacity-40 rounded-lg"></div>
                     </td>
                     <td scope="row" className="px-6 py-4 border-x dark:border-neutral-600">
+                      <div className="w-[160px] h-4 bg-slate-500 bg-opacity-40 rounded-lg"></div>
+                    </td>
+                    <td className="px-6 py-4 border-x dark:border-neutral-600">
                       <div className="w-[160px] h-4 bg-slate-500 bg-opacity-40 rounded-lg"></div>
                     </td>
                     <td className="px-6 py-4 border-x dark:border-neutral-600">
@@ -139,6 +145,13 @@ const CreateProductPage: React.FC = () => {
                           <Link href={`/admin/gallery/${product.id}`}>
                             <button className='flex items-center gap-2 bg-gray-700 p-2 rounded-md'><HiPhoto /> Edit Gallery</button>
                           </Link>
+                        </td>
+                        <td className="px-6 py-4 border-x dark:border-neutral-600">
+                          <div className=" flex flex-col gap-2 items-center justify-center">
+                            <a className='min-w-20 text-center bg-orange-500 p-2 rounded-md' href={product.shopee} target="_blank">Shopee</a>
+                            <a className='min-w-20 text-center bg-green-500 p-2 rounded-md' href={product.tokopedia} target="_blank">Tokopedia</a>
+                            <a className='min-w-20 text-center bg-gray-700 p-2 rounded-md' href={product.tiktok} target="_blank">Tiktok</a>
+                          </div>
                         </td>
                         <td className="px-6 py-4 border-x dark:border-neutral-600">
                           <div className=" flex gap-2 items-center justify-center">

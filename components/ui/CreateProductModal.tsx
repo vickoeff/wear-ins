@@ -84,6 +84,15 @@ export const CreateProductModal = () => {
             <input type="string" className='border border-color-2 py-2 px-4 rounded-md' id="lightBack" {...register('lightBack', { required: true })} placeholder='T-shirt Back View' />
             {errors.stock && <span className='text-red-500'>This field is required</span>}
           </fieldset>
+          <fieldset className='flex flex-col mb-2'>
+            <label htmlFor="lightFront" className='text-xs mb-1'>Online Shop Url</label>
+            <input type="string" className='border border-color-2 py-2 px-4 rounded-md mb-1' id="shopee" {...register('shopee')} placeholder='Shopee Url' />
+            {errors.shopee && <span className='text-red-500'>This field is required</span>}
+            <input type="string" className='border border-color-2 py-2 px-4 rounded-md mb-1' id="tokopedia" {...register('tokopedia')} placeholder='Tokopedia Url' />
+            {errors.tokopedia && <span className='text-red-500'>This field is required</span>}
+            <input type="string" className='border border-color-2 py-2 px-4 rounded-md' id="tiktok" {...register('tiktok')} placeholder='Tiktok Url' />
+            {errors.tiktok && <span className='text-red-500'>This field is required</span>}
+          </fieldset>
 
           <button type="submit" className='bg-color-2 py-2 px-4 text-color-1 rounded-lg mt-2'>Create Product</button>
         </form>

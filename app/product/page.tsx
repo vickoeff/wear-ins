@@ -16,6 +16,7 @@ export default function Products() {
             <>
               <SkeletonCard className="mx-0" />
               <SkeletonCard className="mx-0" />
+              <SkeletonCard className="mx-0" />
             </>
           ) :
 
