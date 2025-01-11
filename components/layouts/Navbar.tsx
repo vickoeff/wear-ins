@@ -5,7 +5,7 @@ import { NAV_ITEMS } from "@/constant/navbar";
 import Image from "next/image";
 import Link from "next/link";
 import { FiMenu } from "react-icons/fi";
-import { AiOutlineHeart } from "react-icons/ai";
+import { AiFillHeart, AiOutlineHeart } from "react-icons/ai";
 import { MdLogout, MdPersonOutline } from "react-icons/md";
 import { Divider } from '../atoms';
 import { useContext } from 'react';
@@ -57,7 +57,12 @@ export const Navbar = () => {
                 :
                 <>
                   <Link href="/favourite" className="bg-color-2 text-white p-4">
-                    <AiOutlineHeart className="text-4xl" />
+                    {
+                      path === '/favourite' ?
+                        <AiFillHeart className="text-4xl" />
+                        :
+                        <AiOutlineHeart className="text-4xl" />
+                    }
                   </Link>
                   <button className="text-color-2 p-4" onClick={() => signOut()}>
                     <MdLogout className="text-4xl" />

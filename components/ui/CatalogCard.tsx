@@ -2,7 +2,9 @@
 
 import Image from "next/image";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { useState } from "react";
+import { AiFillHeart, AiOutlineClose, AiOutlineHeart } from "react-icons/ai";
 
 interface ICatalogCardProps {
   id: string;
@@ -14,26 +16,45 @@ interface ICatalogCardProps {
   material: string;
   size: string[] | string;
   price: string | number;
-  stock: string | number;
+  stock: number;
+  isFavProduct?: boolean;
   className?: string;
+  onClickFav?: () => void;
 }
 
-export const CatalogCard = ({ id, darkFront, darkBack, lightFront, lightBack, name, material, price, size, stock, className }: ICatalogCardProps) => {
+export const CatalogCard = ({ id, darkFront, darkBack, lightFront, lightBack, name, material, price, stock, size, isFavProduct, className, onClickFav }: ICatalogCardProps) => {
   const [selectedColor, setSelectedColor] = useState<"light" | "dark">("light");
+  const pathName = usePathname();
 
   return (
-    <div className={`flex flex-col items-center mx-4 ${className}`}>
-      <div className="bg-color-3 px-4 py-4 w-full font-staatliches tracking-wide shadow-lg rounded-2xl border-color-4 border-2">
-        <div className="relative pt-3">
-          <div className="bg-color-1 w-full h-[24px] mb-3 rounded-2xl shadow-inner"></div>
-          <div className="absolute top-[4px] left-0 right-0 mx-auto bg-color-1 w-1/4 h-[24px] mb-3 rounded-2xl shadow-inner"></div>
+    <div className={`relative flex flex-col items-center mx-4 ${className} ${stock <= 0 && "before:content-['SOLD_OUT'] before:font-gajraj before:-rotate-45 before:w-fit before:h-fit before:opacity-100 before:absolute before:text-5xl before:text-red-500 before:z-30 before:top-0 before:bottom-0 before:left-0 before:right-0 before:m-auto before:font-bold"}`}>
+      {/* Card Inner */}
+      <div className={`bg-color-3 px-4 py-4 w-full font-staatliches tracking-wide shadow-lg rounded-2xl border-color-4 border-2 ${stock <= 0 && "opacity-45"}`}>
+        <div className="relative pt-3 w-1/3 mb-6 ml-auto">
+          <div className="bg-color-1 w-full h-[24px] rounded-2xl shadow-inner"></div>
+          <div className="absolute top-[4px] left-0 right-0 mx-auto bg-color-1 w-1/3 h-[38px] mb-3 rounded-xl "></div>
         </div>
+
+        {/* Product Image */}
         <div className="bg-color-1 w-full h-[360px] mb-3 rounded-2xl">
+          {/* Fav Button Action */}
+          {
+            pathName === "/favourite" ?
+              <button className="relative text-color-1 bg-color-2 rounded-full p-2 float-right right-4 top-4" onClick={onClickFav}>
+                <AiOutlineClose className="text-2xl" />
+              </button>
+              :
+              <button className="relative text-color-1 bg-color-2 rounded-full p-2 float-right right-4 top-4" onClick={onClickFav}>
+                {isFavProduct ? <AiFillHeart className="text-2xl" /> : <AiOutlineHeart className="text-2xl" />}
+              </button>
+          }
           <div className="relative top-10 w-[350px] mx-auto h-[360px]">
             <Image src={selectedColor === "dark" ? darkFront : lightFront} width={350} height={3025} alt="model-back" priority className="absolute -top-8 -left-[15%] max-w-[200%]" />
             <Image src={selectedColor === "dark" ? darkBack : lightBack} width={350} height={3025} alt="model-front" priority className="absolute left-[12%] max-w-[200%]" />
           </div>
         </div>
+
+        {/* Product Detail */}
         <h3 className="bg-color-1 p-2 text-center font-bold uppercase text-xl mb-2 rounded-full">{name}</h3>
         <div className="grid">
           <div className="bg-color-1 p-1 px-4 my-1 border-color-3 rounded-full">

@@ -30,7 +30,12 @@ export default auth(async req => {
     }
   }
 
+  // Only USER can access favourite page
+  if (req.nextUrl.pathname.includes("/favourite") && (session?.role === "ADMIN" || !isLoggedIn)) {
+    return NextResponse.redirect(new URL("/", req.url));
+  }
 
+  // Only ADMIN can access admin page
   if (req.nextUrl.pathname.includes("/admin") && (session?.role === "USER" || !isLoggedIn)) {
     return NextResponse.redirect(new URL("/", req.url));
   }

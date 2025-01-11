@@ -15,24 +15,24 @@ export const Footer = () => {
           <div className="mb-5 md:mb-0">
             <h2 className="font-staatliches tracking-wider text-2xl md:text-4xl mb-2 text-center md:text-start">Contact Us:</h2>
             <ul className="flex justify-center md:justify-start gap-10">
-              <li className="text-3xl">
+              <li className="text-xl">
                 <Link href="">
                   <div className="flex font-light items-center gap-2">
-                    <BsWhatsapp /> <span className="text-sm md:text-2xl">0895-2268-6349</span>
+                    <BsWhatsapp /> <span className="text-sm md:text-lg">+62895-2268-6349</span>
                   </div>
                 </Link>
               </li>
-              <li className="text-3xl">
+              <li className="text-xl">
                 <Link href="">
                   <div className="flex font-light items-center gap-2">
-                    <BsInstagram /><span className="text-sm md:text-2xl">@wear.ins</span>
+                    <BsInstagram /><span className="text-sm md:text-lg">@wear.ins</span>
                   </div>
                 </Link>
               </li>
             </ul>
           </div>
         </div>
-        <small className="font-light block text-center md:inline md:float-end">© 2021 Wear.Ins, Inc. Some Rights Reserved</small>
+        <small className="font-light block text-center text-xs md:inline md:float-end">© 2021 Wear.Ins, Inc. Some Rights Reserved</small>
       </div>
     </footer>
   )

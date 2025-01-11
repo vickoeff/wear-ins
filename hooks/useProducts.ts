@@ -16,9 +16,13 @@ export const useProducts = (page?: number, pageSize?: number) => {
 
       if (res.status === 200) {
         setData(res);
-      } else throw new Error('Error fetching products');
+      } else {
+        setData(null);
+        throw new Error('Error fetching products')
+      };
     } catch (err) {
       setError(err);
+      setData(null);
     } finally {
       setIsLoading(false);
     }
@@ -32,6 +36,6 @@ export const useProducts = (page?: number, pageSize?: number) => {
     data,
     error,
     isLoading,
-    refetch: fetchProducts
+    refetch: fetchProducts,
   };
 }

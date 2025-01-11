@@ -3,11 +3,12 @@
 import { Divider } from "@/components/atoms";
 import { CatalogCard, SkeletonCard } from "@/components/ui";
 import { PRODUCTS } from "@/constant/products";
+import { useFavourites } from "@/hooks/useFavourites";
 import { useProducts } from "@/hooks/useProducts";
 import { motion, MotionConfig, useAnimate } from "motion/react";
 import Image from "next/image";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import Slider from "react-slick";
 
 export default function Home() {
@@ -15,7 +16,25 @@ export default function Home() {
   // Auto Change New Products Animation
   const [scope, animate] = useAnimate();
 
+  // Products
   const { data, isLoading } = useProducts();
+  const { data: favData, isLoading: isLoadingFav, refetch: refetchFav, add, removeByProductId } = useFavourites();
+
+  const handleFavProduct = async (id: string, isFavProduct: boolean) => {
+    if (isFavProduct) await removeByProductId(id);
+    else await add(id);
+    await refetchFav();
+  }
+
+
+  const combinedData = useMemo(() => {
+    const combined = data?.products?.map((product) => ({
+      ...product,
+      isFavProduct: favData ? favData?.favourites?.findIndex((fav) => fav.productId === product.id) !== -1 : false
+    }))
+
+    return combined;
+  }, [data, favData]);
 
   // Set Auto change New Products
   useEffect(() => {
@@ -134,7 +153,7 @@ export default function Home() {
         <section className="relative py-12">
           <motion.h2 className="text-8xl font-staatliches text-center mb-8" initial={{ translateY: "50%", opacity: 0 }} whileInView={{ translateY: "0%", opacity: 1 }}>CATALOG</motion.h2>
           {
-            isLoading || !data ? (
+            isLoading || isLoadingFav || !combinedData ? (
               <div className="flex flex-row gap-4 justify-center">
                 <SkeletonCard className="mx-0" />
                 <SkeletonCard className="mx-0" />
@@ -143,8 +162,8 @@ export default function Home() {
               <div>
                 <Slider {...settings}>
                   {
-                    data.products.map((item, idx) => (
-                      <CatalogCard key={idx} {...item} />
+                    combinedData.map((item, idx) => (
+                      <CatalogCard key={idx} {...item} onClickFav={() => handleFavProduct(item.id, item.isFavProduct)} />
                     ))
                   }
                 </Slider>
